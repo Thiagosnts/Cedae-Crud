@@ -1,0 +1,134 @@
+<style>
+    th {
+        font-size: 20;
+    }
+
+    td,
+    th {
+        padding: 20px;
+        border: solid 1px black;
+        background-color: white;
+    }
+
+    table {
+        margin: auto;
+        border-collapse: collapse;
+    }
+
+    h2 {
+        text-align: center;
+    }
+
+    html {
+        background-color: cadetblue;
+    }
+
+    .salvar {
+        margin: auto;
+        display: block;
+        text-align: center;
+    }
+
+    .row{display: grid;
+    grid-template-columns: auto auto;}
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<h2>Admin</h2>
+<div class="row">
+    <div class="salvar">
+        <legend>Concessionaria</legend>
+        <input type="text">
+        <legend>Cidade</legend>
+        <input type="text">
+        <legend>Bairro</legend>
+        <input type="text">
+        <br>
+        <button>Adicionar</button>
+
+        <Table id="tabela">
+            <tr>
+                <th>Concessionaria</th>
+                <th>Cidade</th>
+                <th>Bairro</th>
+                <th></th>
+        
+                <!--<th><button>Apagar</button></th>-->
+            </tr>
+        
+        </Table>
+
+
+    </div>
+
+    <div class="salvar">
+        <legend>Concessionaria</legend>
+        <input type="text">
+       
+        <br>
+        <br>
+        <button>Adicionar</button>
+        <br>
+        <br>
+
+        <Table id="tabela2">
+            <tr>
+                <th>Concessionarias</th>
+                <th></th>
+            </tr>
+            <tr>
+                <td>Rio Aguas</td>
+                <td><button>Apagar</button></td>
+            </tr>
+        </Table>
+    </div>
+
+</div>
+<br>
+<br>
+
+
+<script>
+
+    $.ajax({
+        url: 'AppListaBack.aspx',
+        cache: false,
+        type: "POST",
+        data: "o",
+        success: function (response) {
+            MontarLista(JSON.parse(response))
+
+        },
+        error: function () {
+            alert('deu ruim')
+        }
+    })
+
+    function MontarLista(dados) {
+        var itens = dados.item
+        var tabela = document.getElementById('tabela')
+
+        for (var i = 0; i < itens.length; i++) {
+
+            var linha = gerarLinha(itens[i])
+            tabela.appendChild(linha)
+
+        }
+    }
+
+    function gerarLinha(item) {
+        var campos = [item.Concessionaria, item.Cidade, item.Bairro]
+        var linha = document.createElement('tr')
+
+        for (var i = 0; i < campos.length; i++) {
+            var coluna = document.createElement('td')
+            coluna.innerHTML = campos[i]
+            linha.appendChild(coluna)
+        }
+        var coluna = document.createElement('td')
+        coluna.innerHTML = '<th><button>Apagar</button></th>'
+        linha.appendChild(coluna)
+        return linha
+    }
+</script>

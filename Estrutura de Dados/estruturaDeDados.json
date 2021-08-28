@@ -1,0 +1,19 @@
+{
+    "Concessionarias": [
+        "Sanepar",
+        "Rio Aguas"
+    ],
+
+item: [
+        {
+            "Concessionaria": "Sanepar",
+            "Cidade": "Rio de janeiro",
+            "Bairro": "Campo Grande"
+        },
+        {
+            "Concessionaria": "Sanepar",
+            "Cidade": "Rio de janeiro",
+            "Bairro": "Campo Grande"
+        }
+    ]
+}
