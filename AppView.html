@@ -124,11 +124,12 @@
         for (var i = 0; i < lista.length; i++) {
             if (lista[i].Concessionaria == regiao)
                 listaAtualizada.push(lista[i])
+               
         }
 
-        if (listaAtualizada.length == 0)
+        if (regiao == 0)
             listaAtualizada = lista
-
+        
         return listaAtualizada
     }
 

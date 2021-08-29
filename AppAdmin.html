@@ -79,7 +79,7 @@
 
         <br>
         <br>
-        <button>Adicionar</button>
+        <button onclick="salvarEmpresa()">Adicionar</button>
         <br>
         <br>
 
@@ -246,15 +246,11 @@
     }
 
     function salvarEmpresa() {
-        var Concessionaria = document.getElementsByClassName('listaConc')[0].value
-        var cidade = document.getElementById("cidade").value
-        var bairro = document.getElementById("bairro").value
+        var empresa = document.getElementById("empresa").value
 
-
-        if (cidade && bairro && Concessionaria!=0) {
-            var item = { "Concessionaria": Concessionaria, "Cidade": cidade, "Bairro": bairro }
-            dadosJsonGlobal.item.push(item)
-            console.log("salvando item")
+        if (empresa) {
+            dadosJsonGlobal.Concessionarias.push(empresa)
+            console.log("salvando empresa")
             salvarDados()
         }
     }
