@@ -3,6 +3,10 @@
         background: #f7f7f7;
     }
 </style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
 <div class="wrapper">
     <div class="filter-tp5 filter">
         <div class="form_inner"> <span id="searchFormMap" action="../Upload/Files/Localizador/pontos.json" class="">
@@ -45,15 +49,53 @@
     window.onload = function () {
 
         var dadosJson;
-        solicitarDados()
+        solicitarDadosMock()
         carregarLista()
         carregarItens()
 
     }
 
-    function solicitarDados() {
+    function getDados() {
+        $.ajax({
+            url: 'AppBack.aspx',
+            cache: false,
+            type: "POST",
+            data: "o",
+            success: function (response) {
+                dadosJson = JSON.parse(response)
+
+            },
+            error: function () {
+                //mockado
+                dadosJson = solicitarDadosMock()
+                //alert('deu ruim')
+            }
+        })
+    }
+    
+    function solicitarDadosMock() {
         var dadosString = '{ "Concessionarias": [ "Sanepar", "Rio Aguas" ],"item": [ { "Concessionaria": "Sanepar", "Cidade": "Rio de janeiro", "Bairro": "Campo Grande" },{ "Concessionaria": "Rio Aguas", "Cidade": "Sao Paulo", "Bairro": "Capao Redondo" } ] }'
         dadosJson = JSON.parse(dadosString);
+    }
+
+
+    function getDados() {
+        $.ajax({
+            url: 'AppListaBack.aspx',
+            cache: false,
+            type: "POST",
+            data: "o",
+            success: function (response) {
+                MontarLista(JSON.parse(response))
+
+            },
+            error: function () {
+                //mockado
+                var dadosString = '{ "Concessionarias": [ "Sanepar", "Rio Aguas" ],"item": [ { "Concessionaria": "Sanepar", "Cidade": "Rio de janeiro", "Bairro": "Campo Grande" },{ "Concessionaria": "Rio Aguas", "Cidade": "Sao Paulo", "Bairro": "Capao Redondo" } ] }'
+                dadosJson = JSON.parse(dadosString)
+                //alert('deu ruim')
+            }
+        })
     }
 
     function carregarLista() {

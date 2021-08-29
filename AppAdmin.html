@@ -29,8 +29,10 @@
         text-align: center;
     }
 
-    .row{display: grid;
-    grid-template-columns: auto auto;}
+    .row {
+        display: grid;
+        grid-template-columns: auto auto;
+    }
 </style>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -53,10 +55,10 @@
                 <th>Cidade</th>
                 <th>Bairro</th>
                 <th></th>
-        
+
                 <!--<th><button>Apagar</button></th>-->
             </tr>
-        
+
         </Table>
 
 
@@ -65,7 +67,7 @@
     <div class="salvar">
         <legend>Concessionaria</legend>
         <input type="text">
-       
+
         <br>
         <br>
         <button>Adicionar</button>
@@ -90,20 +92,52 @@
 
 
 <script>
+    //inicio
+    getDados()
 
-    $.ajax({
-        url: 'AppListaBack.aspx',
-        cache: false,
-        type: "POST",
-        data: "o",
-        success: function (response) {
-            MontarLista(JSON.parse(response))
 
-        },
-        error: function () {
-            alert('deu ruim')
-        }
-    })
+    function getDados() {
+        $.ajax({
+            url: 'AppListaBack.aspx',
+            cache: false,
+            type: "POST",
+            data: "o",
+            success: function (response) {
+                MontarLista(JSON.parse(response))
+
+            },
+            error: function () {
+                //mockado
+                MontarLista(solicitarDadosMock())
+                //alert('deu ruim')
+            }
+        })
+    }
+
+
+    function salvarDados(dados) {
+        var dados = "dados"
+        $.ajax({
+            url: 'AppBack.aspx',
+            cache: false,
+            type: "POST",
+            data: dados,
+            success: function (response) {
+                MontarLista(JSON.parse(response))
+
+            },
+            error: function () {
+                alert('deu ruim')
+            }
+        })
+    }
+
+
+    function solicitarDadosMock() {
+        var dadosString = '{ "Concessionarias": [ "Sanepar", "Rio Aguas" ],"item": [ { "Concessionaria": "Sanepar", "Cidade": "Rio de janeiro", "Bairro": "Campo Grande" },{ "Concessionaria": "Rio Aguas", "Cidade": "Sao Paulo", "Bairro": "Capao Redondo" } ] }'
+        return JSON.parse(dadosString);
+    }
+
 
     function MontarLista(dados) {
         var itens = dados.item
@@ -116,6 +150,7 @@
 
         }
     }
+
 
     function gerarLinha(item) {
         var campos = [item.Concessionaria, item.Cidade, item.Bairro]
