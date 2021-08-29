@@ -51,7 +51,7 @@
 <div class="row">
     <div class="salvar">
         <legend>Concessionaria</legend>
-        <select onchange="" class=""
+        <select onchange="" class="listaConc"
         id="" name="">
         <option value="0"> -- TODAS -- </option>
     </select>
@@ -106,6 +106,8 @@
 
 <script>
     //inicio
+    
+
     getDados()
 
 
@@ -117,11 +119,14 @@
             data: "o",
             success: function (response) {
                 MontarLista(JSON.parse(response))
+                carregarLista(JSON.parse(response))
 
             },
             error: function () {
                 //mockado
                 MontarLista(solicitarDadosMock())
+                carregarLista(solicitarDadosMock())
+
                 //alert('deu ruim')
             }
         })
@@ -179,4 +184,18 @@
         linha.appendChild(coluna)
         return linha
     }
+
+    function carregarLista(dadosJson) {
+        var listaConc = document.getElementsByClassName('listaConc')[0]
+        for (var i = 0; i < dadosJson.Concessionarias.length; i++) {
+            var itemLista = document.createElement("option")
+            itemLista.value = dadosJson.Concessionarias[i]
+            itemLista.innerHTML = dadosJson.Concessionarias[i].toUpperCase()
+            listaConc.appendChild(itemLista)
+        }
+    }
+
+
+
+    
 </script>
