@@ -1,18 +1,23 @@
 <style>
     th {
+        background-color: darkmagenta !important;
+        color: white;
         font-size: 20;
     }
 
     td,
     th {
-        padding: 20px;
+        padding: 10px 20px 10px 20px;
         border: solid 1px black;
         background-color: white;
     }
 
     table {
-        margin: auto;
+        margin: 50px auto auto auto;
         border-collapse: collapse;
+        border-radius: 20px;
+        box-shadow: 4px 4px 9px rgb(0 0 0 / 44%);
+
     }
 
     h2 {
@@ -21,6 +26,8 @@
 
     html {
         background-color: cadetblue;
+        border-top: solid 50px black;
+
     }
 
     .salvar {
@@ -41,13 +48,15 @@
 <div class="row">
     <div class="salvar">
         <legend>Concessionaria</legend>
-        <input type="text">
+        <select onchange="" class="listaConc" id="" name="">
+            <option value="0"> -- TODAS -- </option>
+        </select>
         <legend>Cidade</legend>
-        <input type="text">
+        <input id="cidade" type="text">
         <legend>Bairro</legend>
-        <input type="text">
+        <input id="bairro" type="text">
         <br>
-        <button>Adicionar</button>
+        <button onclick="salvarItem()">Adicionar</button>
 
         <Table id="tabela">
             <tr>
@@ -66,23 +75,23 @@
 
     <div class="salvar">
         <legend>Concessionaria</legend>
-        <input type="text">
+        <input id="empresa" type="text">
 
         <br>
         <br>
-        <button>Adicionar</button>
+        <button onclick="salvarEmpresa()">Adicionar</button>
         <br>
         <br>
 
-        <Table id="tabela2">
+        <Table id="Concessionarias">
             <tr>
                 <th>Concessionarias</th>
                 <th></th>
             </tr>
-            <tr>
+            <!-- <tr>
                 <td>Rio Aguas</td>
                 <td><button>Apagar</button></td>
-            </tr>
+            </tr> -->
         </Table>
     </div>
 
@@ -92,7 +101,9 @@
 
 
 <script>
-    //inicio
+    var dadosJsonGlobal;
+
+
     getDados()
 
 
@@ -103,28 +114,33 @@
             type: "POST",
             data: "o",
             success: function (response) {
-                MontarLista(JSON.parse(response))
+                MontarListaItem(JSON.parse(response))
+                carregarLista(JSON.parse(response))
+                MontarListaEmpresa(JSON.parse(response))
+                dadosJsonGlobal = JSON.parse(response)
 
             },
             error: function () {
                 //mockado
-                MontarLista(solicitarDadosMock())
+                MontarListaItem(solicitarDadosMock())
+                carregarLista(solicitarDadosMock())
+                dadosJsonGlobal = solicitarDadosMock()
+
                 //alert('deu ruim')
             }
         })
     }
 
 
-    function salvarDados(dados) {
-        var dados = "dados"
+    function salvarDados() {
+
         $.ajax({
             url: 'AppBack.aspx',
             cache: false,
             type: "POST",
-            data: dados,
+            data: "dados="+JSON.stringify(dadosJsonGlobal),
             success: function (response) {
-                MontarLista(JSON.parse(response))
-
+                document.location.reload(true);
             },
             error: function () {
                 alert('deu ruim')
@@ -139,20 +155,46 @@
     }
 
 
-    function MontarLista(dados) {
+    function MontarListaItem(dados) {
         var itens = dados.item
         var tabela = document.getElementById('tabela')
 
         for (var i = 0; i < itens.length; i++) {
 
-            var linha = gerarLinha(itens[i])
+            var linha = gerarLinhaItem(itens[i], i)
             tabela.appendChild(linha)
 
         }
     }
 
 
-    function gerarLinha(item) {
+    function MontarListaEmpresa(dados) {
+        var itens = dados.Concessionarias
+        var tabela = document.getElementById('Concessionarias')
+
+        for (var i = 0; i < itens.length; i++) {
+            var linha = document.createElement('tr')
+
+            var coluna = document.createElement('td')
+            coluna.innerHTML = itens[i]
+            linha.appendChild(coluna)
+            tabela.appendChild(linha)
+
+            var botao = document.createElement('button')
+            botao.innerHTML = "Apagar"
+            botao.setAttribute("onclick", "deletarEmpresa(this.value)")
+            botao.value = i
+            
+            coluna = document.createElement('td')
+            coluna.appendChild(botao)
+            linha.appendChild(coluna)
+            tabela.appendChild(linha)
+
+        }
+    }
+
+
+    function gerarLinhaItem(item, indice) {
         var campos = [item.Concessionaria, item.Cidade, item.Bairro]
         var linha = document.createElement('tr')
 
@@ -162,8 +204,62 @@
             linha.appendChild(coluna)
         }
         var coluna = document.createElement('td')
-        coluna.innerHTML = '<th><button>Apagar</button></th>'
+
+        var botao = document.createElement('button')
+        botao.innerHTML = "Apagar"
+        botao.setAttribute("onclick", "deletarItem(this.value)")
+        botao.value = indice
+
+        coluna.appendChild(botao)
         linha.appendChild(coluna)
         return linha
     }
+
+    function carregarLista(dadosJson) {
+        var listaConc = document.getElementsByClassName('listaConc')[0]
+        for (var i = 0; i < dadosJson.Concessionarias.length; i++) {
+            var itemLista = document.createElement("option")
+            itemLista.value = dadosJson.Concessionarias[i]
+            itemLista.innerHTML = dadosJson.Concessionarias[i].toUpperCase()
+            listaConc.appendChild(itemLista)
+        }
+    }
+
+    function salvarItem() {
+        var Concessionaria = document.getElementsByClassName('listaConc')[0].value
+        var cidade = document.getElementById("cidade").value
+        var bairro = document.getElementById("bairro").value
+
+
+        if (cidade && bairro && Concessionaria!=0) {
+            var item = { "Concessionaria": Concessionaria, "Cidade": cidade, "Bairro": bairro }
+            dadosJsonGlobal.item.push(item)
+            console.log("salvando item")
+            salvarDados()
+        }
+    }
+
+    function deletarItem(indice) {
+        dadosJsonGlobal.item.pop(indice)
+        console.log("deletando item " + indice)
+        salvarDados()
+    }
+
+    function salvarEmpresa() {
+        var empresa = document.getElementById("empresa").value
+
+        if (empresa) {
+            dadosJsonGlobal.Concessionarias.push(empresa)
+            console.log("salvando empresa")
+            salvarDados()
+        }
+    }
+
+    function deletarEmpresa(indice) {
+        dadosJsonGlobal.Concessionarias.pop(indice)
+        console.log("deletando item " + indice)
+        salvarDados()
+    }
+
+
 </script>

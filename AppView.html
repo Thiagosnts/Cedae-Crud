@@ -1,42 +1,61 @@
 <style>
     #searchResult li:nth-child(2n+1) {
         background: #f7f7f7;
+        width: 100%;
     }
+    #searchResult li .more {
+    font-family: Conv_HelveticaNeueLTPro-Bd;
+    display: block;
+    color: #0072bc;
+    font-size: 18px;
+    position: relative;
+    float: left;
+    width: 100%;
+    height: 36px;
+    line-height: 36px;
+}
+
+    
 </style>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 
 <div class="wrapper">
+
+    
     <div class="filter-tp5 filter">
         <div class="form_inner"> <span id="searchFormMap" action="../Upload/Files/Localizador/pontos.json" class="">
                 <div class="row"> <label></label>
                     <div class="select">
-                        <div class="select-inside"> <select onchange="carregarItens()" class="listaConc"
+                        <div class="select-inside">
+                            <select onchange="carregarItens()" class="listaConc"
                                 id="dnn_ctr685_View_ddlStoreLocatorRegion" name="dnn$ctr685$View$ddlStoreLocatorRegion">
                                 <option value="0">-- TODAS REGIÕES --</option>
-                            </select></div>
-                        </select></div>
+                            </select>
+                        </div>
+                       
                     </div>
                 </div>
-                <div class="wrap-buscar">
-                    <div class="row"> <label>Buscar</label> <input name="dnn$ctr685$View$tbSubject" type="text"
-                            id="busca" placeholder="Palavra-chave"></div>
-                    <div class="row submit"> <input
-                            onclick="carregarItens(document.getElementById('busca').value);return false" type="submit"
-                            name="dnn$ctr685$View$btnSearch" value="OK" id="dnn_ctr685_View_btnSearch">
-                    </div>
-                </div>
-            </span></div>
+        </div>
+        <div class="wrap-buscar">
+            <div class="row"> <label>Buscar</label> <input name="dnn$ctr685$View$tbSubject" type="text" id="busca"
+                    placeholder="Palavra-chave"></div>
+            <div class="row submit"> <input onclick="carregarItens(document.getElementById('busca').value);return false"
+                    type="submit" name="dnn$ctr685$View$btnSearch" value="OK" id="dnn_ctr685_View_btnSearch">
+            </div>
+        </div>
+        </span>
     </div>
+
     <ul id="searchResult">
         <!-- <li class="active">
-            <h4 class="local-name">BELFORD ROXO</h4> <span class="adress"><b>Bairro: </b>Campo Grande</span><a class="more-info" href="0">Mais informações</a>
-        </li>
-        <li class="">
-            <h4 class="local-name">DUQUE DE CAXIAS</h4> <span class="adress"><b>Bairro: </b>Av. Dr. Manoel Teles,
-                237</span><a class="more-info" href="1">Mais informações</a>
-        </li> -->
+                <h4 class="local-name">BELFORD ROXO</h4> <span class="adress"><b>Bairro: </b>Campo Grande</span><a class="more-info" href="0">Mais informações</a>
+            </li>
+            <li class="">
+                <h4 class="local-name">DUQUE DE CAXIAS</h4> <span class="adress"><b>Bairro: </b>Av. Dr. Manoel Teles,
+                    237</span><a class="more-info" href="1">Mais informações</a>
+            </li> -->
     </ul>
 </div>
 
@@ -46,54 +65,27 @@
 
 
 <script>
-    window.onload = function () {
+    var dadosJson;
+    window.onload = function ()  {
 
-        var dadosJson;
-        solicitarDadosMock()
-        carregarLista()
-        carregarItens()
-
+        getDados() 
     }
 
-    function getDados() {
-        $.ajax({
-            url: 'AppBack.aspx',
-            cache: false,
-            type: "POST",
-            data: "o",
-            success: function (response) {
-                dadosJson = JSON.parse(response)
-
-            },
-            error: function () {
-                //mockado
-                dadosJson = solicitarDadosMock()
-                //alert('deu ruim')
-            }
-        })
-    }
-    
-    function solicitarDadosMock() {
-        var dadosString = '{ "Concessionarias": [ "Sanepar", "Rio Aguas" ],"item": [ { "Concessionaria": "Sanepar", "Cidade": "Rio de janeiro", "Bairro": "Campo Grande" },{ "Concessionaria": "Rio Aguas", "Cidade": "Sao Paulo", "Bairro": "Capao Redondo" } ] }'
-        dadosJson = JSON.parse(dadosString);
-    }
-
-
+ 
     function getDados() {
         $.ajax({
             url: 'AppListaBack.aspx',
             cache: false,
             type: "POST",
-            data: "o",
             success: function (response) {
-                MontarLista(JSON.parse(response))
+
+                dadosJson = JSON.parse(response);
+                carregarLista()
+                carregarItens()
 
             },
             error: function () {
-                //mockado
-                var dadosString = '{ "Concessionarias": [ "Sanepar", "Rio Aguas" ],"item": [ { "Concessionaria": "Sanepar", "Cidade": "Rio de janeiro", "Bairro": "Campo Grande" },{ "Concessionaria": "Rio Aguas", "Cidade": "Sao Paulo", "Bairro": "Capao Redondo" } ] }'
-                dadosJson = JSON.parse(dadosString)
-                //alert('deu ruim')
+                alert('deu ruim')
             }
         })
     }
@@ -110,7 +102,7 @@
 
     function carregarItens(cidade) {
         limparItens();
-        var modeloItens = '<h4 class="local-name">#CIDADE#</h4> <span class="adress"><b>Bairro: </b>#BAIRRO#</span><a class="more-info" href="1">Mais informações</a>'
+        var modeloItens = '<h4 class="local-name">#CIDADE#</h4> <span class="adress"><b>Bairro: </b>#BAIRRO#</span><span style="display:block" class="more" href="1">#EMPRESA#</span>'
         var listaItens = document.getElementById('searchResult')
 
         var itemJson = filtraRegiao(cidade)
@@ -121,6 +113,9 @@
             item = document.createElement('li')
             aux = modeloItens.replace('#BAIRRO#', itemJson[i].Bairro);
             aux = aux.replace('#CIDADE#', itemJson[i].Cidade);
+            aux = aux.replace('#EMPRESA#', itemJson[i].Concessionaria);
+
+            
 
             item.innerHTML = aux
             listaItens.appendChild(item)
@@ -148,11 +143,12 @@
         for (var i = 0; i < lista.length; i++) {
             if (lista[i].Concessionaria == regiao)
                 listaAtualizada.push(lista[i])
+               
         }
 
-        if (listaAtualizada.length == 0)
+        if (regiao == 0)
             listaAtualizada = lista
-
+        
         return listaAtualizada
     }
 
@@ -165,6 +161,11 @@
         }
 
         return listaAtualizada
+    }
+
+    function solicitarDadosMock() {
+        var dadosString = '{ "Concessionarias": [ "Sanepar", "Rio Aguas" ],"item": [ { "Concessionaria": "Sanepar", "Cidade": "Rio de janeiro", "Bairro": "Campo Grande" },{ "Concessionaria": "Rio Aguas", "Cidade": "Sao Paulo", "Bairro": "Capao Redondo" } ] }'
+        dadosJson = JSON.parse(dadosString);
     }
 
 </script>
