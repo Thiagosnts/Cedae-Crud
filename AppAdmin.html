@@ -1,9 +1,8 @@
 <style>
-  
     th {
-    background-color: darkmagenta!important;
-    color: white;
-    font-size: 20;
+        background-color: darkmagenta !important;
+        color: white;
+        font-size: 20;
     }
 
     td,
@@ -27,7 +26,7 @@
 
     html {
         background-color: cadetblue;
-        border-top:solid 50px black ;
+        border-top: solid 50px black;
 
     }
 
@@ -41,8 +40,6 @@
         display: grid;
         grid-template-columns: auto auto;
     }
-
-    
 </style>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -51,10 +48,9 @@
 <div class="row">
     <div class="salvar">
         <legend>Concessionaria</legend>
-        <select onchange="" class="listaConc"
-        id="" name="">
-        <option value="0"> -- TODAS -- </option>
-    </select>
+        <select onchange="" class="listaConc" id="" name="">
+            <option value="0"> -- TODAS -- </option>
+        </select>
         <legend>Cidade</legend>
         <input type="text">
         <legend>Bairro</legend>
@@ -105,8 +101,8 @@
 
 
 <script>
-    //inicio
-    
+    var dadosJsonGlobal;
+
 
     getDados()
 
@@ -120,12 +116,14 @@
             success: function (response) {
                 MontarLista(JSON.parse(response))
                 carregarLista(JSON.parse(response))
+                dadosJsonGlobal = JSON.parse(response)
 
             },
             error: function () {
                 //mockado
                 MontarLista(solicitarDadosMock())
                 carregarLista(solicitarDadosMock())
+                dadosJsonGlobal = solicitarDadosMock()
 
                 //alert('deu ruim')
             }
@@ -133,16 +131,15 @@
     }
 
 
-    function salvarDados(dados) {
-        var dados = "dados"
+    function salvarDados() {
+        
         $.ajax({
             url: 'AppBack.aspx',
             cache: false,
             type: "POST",
-            data: dados,
+            data: JSON.stringify(dadosJsonGlobal),
             success: function (response) {
-                MontarLista(JSON.parse(response))
-
+                document.location.reload(true);
             },
             error: function () {
                 alert('deu ruim')
@@ -163,14 +160,14 @@
 
         for (var i = 0; i < itens.length; i++) {
 
-            var linha = gerarLinha(itens[i])
+            var linha = gerarLinha(itens[i], i)
             tabela.appendChild(linha)
 
         }
     }
 
 
-    function gerarLinha(item) {
+    function gerarLinha(item, indice) {
         var campos = [item.Concessionaria, item.Cidade, item.Bairro]
         var linha = document.createElement('tr')
 
@@ -180,7 +177,13 @@
             linha.appendChild(coluna)
         }
         var coluna = document.createElement('td')
-        coluna.innerHTML = '<th><button>Apagar</button></th>'
+
+        var botao = document.createElement('button')
+        botao.innerHTML = "Apagar"
+        botao.setAttribute("onclick", "deletarItem(this.value)")
+        botao.value = indice
+
+        coluna.appendChild(botao)
         linha.appendChild(coluna)
         return linha
     }
@@ -196,6 +199,11 @@
     }
 
 
+    function deletarItem(indice) {
+        dadosJsonGlobal.item.pop(0)
+        console.log("deletando item " + indice)
+        salvarDados()
+    }
 
-    
+
 </script>
