@@ -49,33 +49,13 @@
 
 
 <script>
-    window.onload = function () {
+    var dadosJson;
+    window.onload = function ()  {
 
-        var dadosJson;
-        solicitarDadosMock()
-        carregarLista()
-        carregarItens()
-
+        getDados() 
     }
 
-    function getDados() {
-        $.ajax({
-            url: 'AppBack.aspx',
-            cache: false,
-            type: "POST",
-            data: "o",
-            success: function (response) {
-                dadosJson = JSON.parse(response)
-
-            },
-            error: function () {
-                //mockado
-                dadosJson = solicitarDadosMock()
-                //alert('deu ruim')
-            }
-        })
-    }
-
+ 
     function solicitarDadosMock() {
         var dadosString = '{ "Concessionarias": [ "Sanepar", "Rio Aguas" ],"item": [ { "Concessionaria": "Sanepar", "Cidade": "Rio de janeiro", "Bairro": "Campo Grande" },{ "Concessionaria": "Rio Aguas", "Cidade": "Sao Paulo", "Bairro": "Capao Redondo" } ] }'
         dadosJson = JSON.parse(dadosString);
@@ -87,16 +67,15 @@
             url: 'AppListaBack.aspx',
             cache: false,
             type: "POST",
-            data: "o",
             success: function (response) {
-                MontarLista(JSON.parse(response))
+
+                dadosJson = JSON.parse(response);
+                carregarLista()
+                carregarItens()
 
             },
             error: function () {
-                //mockado
-                var dadosString = '{ "Concessionarias": [ "Sanepar", "Rio Aguas" ],"item": [ { "Concessionaria": "Sanepar", "Cidade": "Rio de janeiro", "Bairro": "Campo Grande" },{ "Concessionaria": "Rio Aguas", "Cidade": "Sao Paulo", "Bairro": "Capao Redondo" } ] }'
-                dadosJson = JSON.parse(dadosString)
-                //alert('deu ruim')
+                alert('deu ruim')
             }
         })
     }

@@ -137,7 +137,7 @@
             url: 'AppBack.aspx',
             cache: false,
             type: "POST",
-            data: JSON.stringify(dadosJsonGlobal),
+            data: "dados="+JSON.stringify(dadosJsonGlobal),
             success: function (response) {
                 document.location.reload(true);
             },
