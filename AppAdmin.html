@@ -52,11 +52,11 @@
             <option value="0"> -- TODAS -- </option>
         </select>
         <legend>Cidade</legend>
-        <input type="text">
+        <input id="cidade" type="text">
         <legend>Bairro</legend>
-        <input type="text">
+        <input id="bairro" type="text">
         <br>
-        <button>Adicionar</button>
+        <button onclick="salvarItem()">Adicionar</button>
 
         <Table id="tabela">
             <tr>
@@ -132,7 +132,7 @@
 
 
     function salvarDados() {
-        
+
         $.ajax({
             url: 'AppBack.aspx',
             cache: false,
@@ -198,6 +198,19 @@
         }
     }
 
+    function salvarItem() {
+        var Concessionaria = document.getElementsByClassName('listaConc')[0].value
+        var cidade = document.getElementById("cidade").value
+        var bairro = document.getElementById("bairro").value
+
+
+        if (cidade && bairro && Concessionaria) {
+            var item = { "Concessionaria": Concessionaria, "Cidade": cidade, "Bairro": bairro }
+            dadosJsonGlobal.item.push(item)
+            console.log("salvando item")
+            salvarDados()
+        }
+    }
 
     function deletarItem(indice) {
         dadosJsonGlobal.item.pop(0)
