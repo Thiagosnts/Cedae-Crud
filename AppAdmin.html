@@ -75,7 +75,7 @@
 
     <div class="salvar">
         <legend>Concessionaria</legend>
-        <input type="text">
+        <input id="empresa" type="text">
 
         <br>
         <br>
@@ -83,15 +83,15 @@
         <br>
         <br>
 
-        <Table id="tabela2">
+        <Table id="Concessionarias">
             <tr>
                 <th>Concessionarias</th>
                 <th></th>
             </tr>
-            <tr>
+            <!-- <tr>
                 <td>Rio Aguas</td>
                 <td><button>Apagar</button></td>
-            </tr>
+            </tr> -->
         </Table>
     </div>
 
@@ -114,14 +114,15 @@
             type: "POST",
             data: "o",
             success: function (response) {
-                MontarLista(JSON.parse(response))
+                MontarListaItem(JSON.parse(response))
                 carregarLista(JSON.parse(response))
+                MontarListaEmpresa(JSON.parse(response))
                 dadosJsonGlobal = JSON.parse(response)
 
             },
             error: function () {
                 //mockado
-                MontarLista(solicitarDadosMock())
+                MontarListaItem(solicitarDadosMock())
                 carregarLista(solicitarDadosMock())
                 dadosJsonGlobal = solicitarDadosMock()
 
@@ -154,20 +155,46 @@
     }
 
 
-    function MontarLista(dados) {
+    function MontarListaItem(dados) {
         var itens = dados.item
         var tabela = document.getElementById('tabela')
 
         for (var i = 0; i < itens.length; i++) {
 
-            var linha = gerarLinha(itens[i], i)
+            var linha = gerarLinhaItem(itens[i], i)
             tabela.appendChild(linha)
 
         }
     }
 
 
-    function gerarLinha(item, indice) {
+    function MontarListaEmpresa(dados) {
+        var itens = dados.Concessionarias
+        var tabela = document.getElementById('Concessionarias')
+
+        for (var i = 0; i < itens.length; i++) {
+            var linha = document.createElement('tr')
+
+            var coluna = document.createElement('td')
+            coluna.innerHTML = itens[i]
+            linha.appendChild(coluna)
+            tabela.appendChild(linha)
+
+            var botao = document.createElement('button')
+            botao.innerHTML = "Apagar"
+            botao.setAttribute("onclick", "deletarEmpresa(this.value)")
+            botao.value = i
+            
+            coluna = document.createElement('td')
+            coluna.appendChild(botao)
+            linha.appendChild(coluna)
+            tabela.appendChild(linha)
+
+        }
+    }
+
+
+    function gerarLinhaItem(item, indice) {
         var campos = [item.Concessionaria, item.Cidade, item.Bairro]
         var linha = document.createElement('tr')
 
@@ -204,7 +231,7 @@
         var bairro = document.getElementById("bairro").value
 
 
-        if (cidade && bairro && Concessionaria) {
+        if (cidade && bairro && Concessionaria!=0) {
             var item = { "Concessionaria": Concessionaria, "Cidade": cidade, "Bairro": bairro }
             dadosJsonGlobal.item.push(item)
             console.log("salvando item")
@@ -213,7 +240,27 @@
     }
 
     function deletarItem(indice) {
-        dadosJsonGlobal.item.pop(0)
+        dadosJsonGlobal.item.pop(indice)
+        console.log("deletando item " + indice)
+        salvarDados()
+    }
+
+    function salvarEmpresa() {
+        var Concessionaria = document.getElementsByClassName('listaConc')[0].value
+        var cidade = document.getElementById("cidade").value
+        var bairro = document.getElementById("bairro").value
+
+
+        if (cidade && bairro && Concessionaria!=0) {
+            var item = { "Concessionaria": Concessionaria, "Cidade": cidade, "Bairro": bairro }
+            dadosJsonGlobal.item.push(item)
+            console.log("salvando item")
+            salvarDados()
+        }
+    }
+
+    function deletarEmpresa(indice) {
+        dadosJsonGlobal.Concessionarias.pop(indice)
         console.log("deletando item " + indice)
         salvarDados()
     }

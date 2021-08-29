@@ -56,12 +56,6 @@
     }
 
  
-    function solicitarDadosMock() {
-        var dadosString = '{ "Concessionarias": [ "Sanepar", "Rio Aguas" ],"item": [ { "Concessionaria": "Sanepar", "Cidade": "Rio de janeiro", "Bairro": "Campo Grande" },{ "Concessionaria": "Rio Aguas", "Cidade": "Sao Paulo", "Bairro": "Capao Redondo" } ] }'
-        dadosJson = JSON.parse(dadosString);
-    }
-
-
     function getDados() {
         $.ajax({
             url: 'AppListaBack.aspx',
@@ -147,6 +141,11 @@
         }
 
         return listaAtualizada
+    }
+
+    function solicitarDadosMock() {
+        var dadosString = '{ "Concessionarias": [ "Sanepar", "Rio Aguas" ],"item": [ { "Concessionaria": "Sanepar", "Cidade": "Rio de janeiro", "Bairro": "Campo Grande" },{ "Concessionaria": "Rio Aguas", "Cidade": "Sao Paulo", "Bairro": "Capao Redondo" } ] }'
+        dadosJson = JSON.parse(dadosString);
     }
 
 </script>
