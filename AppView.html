@@ -2,12 +2,27 @@
     #searchResult li:nth-child(2n+1) {
         background: #f7f7f7;
     }
+    #searchResult li .more {
+    font-family: Conv_HelveticaNeueLTPro-Bd;
+    display: block;
+    color: #0072bc;
+    font-size: 18px;
+    position: relative;
+    float: left;
+    width: 100%;
+    height: 36px;
+    line-height: 36px;
+}
+
+    
 </style>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 
 <div class="wrapper">
+
+    
     <div class="filter-tp5 filter">
         <div class="form_inner"> <span id="searchFormMap" action="../Upload/Files/Localizador/pontos.json" class="">
                 <div class="row"> <label></label>
@@ -31,16 +46,16 @@
         </div>
         </span>
     </div>
-</div>
-<ul id="searchResult">
-    <!-- <li class="active">
-            <h4 class="local-name">BELFORD ROXO</h4> <span class="adress"><b>Bairro: </b>Campo Grande</span><a class="more-info" href="0">Mais informações</a>
-        </li>
-        <li class="">
-            <h4 class="local-name">DUQUE DE CAXIAS</h4> <span class="adress"><b>Bairro: </b>Av. Dr. Manoel Teles,
-                237</span><a class="more-info" href="1">Mais informações</a>
-        </li> -->
-</ul>
+
+    <ul id="searchResult">
+        <!-- <li class="active">
+                <h4 class="local-name">BELFORD ROXO</h4> <span class="adress"><b>Bairro: </b>Campo Grande</span><a class="more-info" href="0">Mais informações</a>
+            </li>
+            <li class="">
+                <h4 class="local-name">DUQUE DE CAXIAS</h4> <span class="adress"><b>Bairro: </b>Av. Dr. Manoel Teles,
+                    237</span><a class="more-info" href="1">Mais informações</a>
+            </li> -->
+    </ul>
 </div>
 
 
@@ -86,7 +101,7 @@
 
     function carregarItens(cidade) {
         limparItens();
-        var modeloItens = '<h4 class="local-name">#CIDADE#</h4> <span class="adress"><b>Bairro: </b>#BAIRRO#</span><a class="more-info" href="1">Mais informações</a>'
+        var modeloItens = '<h4 class="local-name">#CIDADE#</h4> <span class="adress"><b>Bairro: </b>#BAIRRO#</span><span style="display:block" class="more" href="1">#EMPRESA#</span>'
         var listaItens = document.getElementById('searchResult')
 
         var itemJson = filtraRegiao(cidade)
@@ -97,6 +112,9 @@
             item = document.createElement('li')
             aux = modeloItens.replace('#BAIRRO#', itemJson[i].Bairro);
             aux = aux.replace('#CIDADE#', itemJson[i].Cidade);
+            aux = aux.replace('#EMPRESA#', itemJson[i].Concessionaria);
+
+            
 
             item.innerHTML = aux
             listaItens.appendChild(item)
