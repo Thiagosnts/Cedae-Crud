@@ -240,7 +240,8 @@
     }
 
     function deletarItem(indice) {
-        dadosJsonGlobal.item.pop(indice)
+        
+        dadosJsonGlobal.item.splice(indice, 1)
         console.log("deletando item " + indice)
         salvarDados()
     }
@@ -256,7 +257,7 @@
     }
 
     function deletarEmpresa(indice) {
-        dadosJsonGlobal.Concessionarias.pop(indice)
+        dadosJsonGlobal.Concessionarias.splice(indice, 1)
         console.log("deletando item " + indice)
         salvarDados()
     }
