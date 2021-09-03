@@ -1,3 +1,7 @@
+<script src="Mapa/RjBase.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+
 <style>
     th {
         background-color: darkmagenta !important;
@@ -56,6 +60,11 @@
         <legend>Bairro</legend>
         <input id="bairro" type="text">
         <br>
+<br>
+        <select id="locais"></select>
+        <br>
+        <br>
+
         <button onclick="salvarItem()">Adicionar</button>
 
         <Table id="tabela">
@@ -103,9 +112,19 @@
 <script>
     var dadosJsonGlobal;
 
-
+    getMap()
     getDados()
 
+    function getMap() {
+        var comboBox = document.getElementById("locais")
+
+        for (var i = 0; i < municipiosBase.features.length; i++) {
+            var option = document.createElement("option")
+            option.value = i
+            option.innerHTML = municipiosBase.features[i].properties.name
+            comboBox.appendChild(option)
+        }
+    }
 
     function getDados() {
         $.ajax({
@@ -138,7 +157,7 @@
             url: 'AppBack.aspx',
             cache: false,
             type: "POST",
-            data: "dados="+JSON.stringify(dadosJsonGlobal),
+            data: "dados=" + JSON.stringify(dadosJsonGlobal),
             success: function (response) {
                 document.location.reload(true);
             },
@@ -184,7 +203,7 @@
             botao.innerHTML = "Apagar"
             botao.setAttribute("onclick", "deletarEmpresa(this.value)")
             botao.value = i
-            
+
             coluna = document.createElement('td')
             coluna.appendChild(botao)
             linha.appendChild(coluna)
@@ -231,7 +250,7 @@
         var bairro = document.getElementById("bairro").value
 
 
-        if (cidade && bairro && Concessionaria!=0) {
+        if (cidade && bairro && Concessionaria != 0) {
             var item = { "Concessionaria": Concessionaria, "Cidade": cidade, "Bairro": bairro }
             dadosJsonGlobal.item.push(item)
             console.log("salvando item")
@@ -240,7 +259,7 @@
     }
 
     function deletarItem(indice) {
-        
+
         dadosJsonGlobal.item.splice(indice, 1)
         console.log("deletando item " + indice)
         salvarDados()

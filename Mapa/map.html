@@ -22,64 +22,69 @@
 </head>
 
 <body>
+    <select id="locais">
+        <!--<option value="volvo">Volvo</option>-->
+
+    </select>
     <div id='mapDIV'></div>
 
 
 
     <script>
-        var estilos =   { 
-                        base: {
-                            color: '#00008b',
-                            weight: 1,
-                            opacity: 1,
-                            fillOpacity:0.7,
+        var estilos = {
+            base: {
+                color: '#00008b',
+                weight: 1,
+                opacity: 1,
+                fillOpacity: 0.7,
 
-                            fillColor: '#0067ac',
-                        },
-                        estado: {
-                             color: '#474a51',
-                            //color: '#dddddd',
-                            weight: 1.5,
-                            fillOpacity:0.5,
-                             fillColor: '#e0dbcf'
-                        },
-                        destaque: {                                
-                            // color: '#af8209',
-                            color: '#aaaaaa',
-                            weight: 1,
-                            fillOpacity:1,
-                            // fillColor: '#cd9600'
-                            fillColor: '#FF8C00'
-                        }
-                    }; 
-
-
+                fillColor: '#0067ac',
+            },
+            estado: {
+                color: '#474a51',
+                //color: '#dddddd',
+                weight: 1.5,
+                fillOpacity: 0.5,
+                fillColor: '#e0dbcf'
+            },
+            destaque: {
+                // color: '#af8209',
+                color: '#aaaaaa',
+                weight: 1,
+                fillOpacity: 1,
+                // fillColor: '#cd9600'
+                fillColor: '#FF8C00'
+            }
+        };
 
 
 
 
 
-        var municipios =JSON.parse(JSON.stringify(municipiosBase))
-        var estado =JSON.parse(JSON.stringify(estado))
+
+
+        var municipios = JSON.parse(JSON.stringify(municipiosBase))
+        var estado = JSON.parse(JSON.stringify(estado))
 
         municipios.features = []
 
 
 
-       
 
-        for(var i=0;i<municipiosBase.features.length;i++){
-            
-            if(i<38){
-            municipios.features.push(municipiosBase.features[i])
-            console.log(municipiosBase.features[i].properties.name)}
+
+        for (var i = 0; i < municipiosBase.features.length; i++) {
+
+            if (i < 10) {
+                municipios.features.push(municipiosBase.features[i])
+                console.log(municipiosBase.features[i].properties.name)
+            }
 
         }
 
 
 
 
-      
+
 
 
 
@@ -88,8 +93,8 @@
             zoom: 7.5
         });
         var basemap = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        //var basemap = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
-        //var basemap = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png', {
+            //var basemap = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
+            //var basemap = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png', {
         });
 
         basemap.addTo(map);
@@ -106,7 +111,7 @@
 
 
 
-        
+
 
 
 
@@ -136,6 +141,17 @@
                 .setLatLng(cod)
                 .setContent(cidade + "<br>" + concessao)
                 .openOn(map);
+        }
+
+
+
+        var comboBox = document.getElementById("locais")
+
+        for (var i = 0; i < municipios.features.length; i++) {
+            var option = document.createElement("option")
+            option.value = i
+            option.innerHTML = municipiosBase.features[i].properties.name
+            comboBox.appendChild(option)
         }
 
     </script>
