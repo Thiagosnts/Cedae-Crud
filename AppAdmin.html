@@ -1,4 +1,4 @@
-<script src="Mapa/RjBase.js"></script>
+<script src="Mapa/RjGeo.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
 
@@ -131,33 +131,34 @@
 <script>
     var dadosJsonGlobal;
 
-    getMap()
     getDados()
 
 
-    function checkMap(comboBox, indice) {
-        var input = document.createElement("input")
-        input.type = "checkbox";
-        input.id = indice
-        input.checked=true
-        input.value = municipiosBase.features[indice].properties.name
-        input.setAttribute("onchange",'alert('+indice+')')
 
-        var label = document.createElement("label")
-        label.innerHTML = municipiosBase.features[indice].properties.name + "<br>"
-        label.for = "vehicle1"
-
-        comboBox.appendChild(input)
-        comboBox.appendChild(label)
-    }
     function getMap() {
         var comboBox = document.getElementById("locais")
 
         for (var i = 0; i < municipiosBase.features.length; i++) {
-            checkMap(comboBox, i)
+            var input = document.createElement("input")
+            input.type = "checkbox";
+            input.id = i
+            console.log(dadosJsonGlobal.MunAtivos+"--"+i)
 
+            if (dadosJsonGlobal.MunAtivos.indexOf(i)!=-1)
+                input.checked = true
+
+            input.value = municipiosBase.features[i].properties.name
+            input.setAttribute("onchange", 'alert(' + i + ')')
+
+            var label = document.createElement("label")
+            label.innerHTML = municipiosBase.features[i].properties.name + "<br>"
+            label.for = "vehicle1"
+
+            comboBox.appendChild(input)
+            comboBox.appendChild(label)
         }
     }
+
 
     function getDados() {
         $.ajax({
@@ -170,13 +171,14 @@
                 carregarLista(JSON.parse(response))
                 MontarListaEmpresa(JSON.parse(response))
                 dadosJsonGlobal = JSON.parse(response)
-
+                getMap()
             },
             error: function () {
                 //mockado
                 MontarListaItem(solicitarDadosMock())
                 carregarLista(solicitarDadosMock())
                 dadosJsonGlobal = solicitarDadosMock()
+                getMap()
 
                 //alert('deu ruim')
             }
@@ -202,7 +204,7 @@
 
 
     function solicitarDadosMock() {
-        var dadosString = '{ "Concessionarias": [ "Sanepar", "Rio Aguas" ],"item": [ { "Concessionaria": "Sanepar", "Cidade": "Rio de janeiro", "Bairro": "Campo Grande" },{ "Concessionaria": "Rio Aguas", "Cidade": "Sao Paulo", "Bairro": "Capao Redondo" } ] }'
+        var dadosString = '{ "Concessionarias": [ "Sanepar", "Rio Aguas" ],"MunAtivos": [1,3,5],"item": [ { "Concessionaria": "Sanepar", "Cidade": "Rio de janeiro", "Bairro": "Campo Grande" },{ "Concessionaria": "Rio Aguas", "Cidade": "Sao Paulo", "Bairro": "Capao Redondo" } ] }'
         return JSON.parse(dadosString);
     }
 
