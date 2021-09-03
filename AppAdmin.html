@@ -42,7 +42,16 @@
 
     .row {
         display: grid;
-        grid-template-columns: auto auto;
+        grid-template-columns: auto auto auto;
+    }
+
+    #locais {
+        border: 1px solid #a7a7a7;
+        width: auto;
+        height: 389px;
+        overflow: auto;
+        text-align: left;
+        padding: 5px 15px 0px 15px;
     }
 </style>
 
@@ -50,6 +59,14 @@
 
 <h2>Admin</h2>
 <div class="row">
+
+    <div class="salvar">
+        <legend style="font-weight: bold;font-size: 20;">Cidades</legend>
+
+        <div id="locais"></div>
+
+    </div>
+
     <div class="salvar">
         <legend>Concessionaria</legend>
         <select onchange="" class="listaConc" id="" name="">
@@ -60,8 +77,9 @@
         <legend>Bairro</legend>
         <input id="bairro" type="text">
         <br>
-<br>
-        <select id="locais"></select>
+        <br>
+        <!---<select id="locais"></select>-->
+
         <br>
         <br>
 
@@ -104,6 +122,7 @@
         </Table>
     </div>
 
+
 </div>
 <br>
 <br>
@@ -115,14 +134,28 @@
     getMap()
     getDados()
 
+
+    function checkMap(comboBox, indice) {
+        var input = document.createElement("input")
+        input.type = "checkbox";
+        input.id = indice
+        input.checked=true
+        input.value = municipiosBase.features[indice].properties.name
+        input.setAttribute("onchange",'alert('+indice+')')
+
+        var label = document.createElement("label")
+        label.innerHTML = municipiosBase.features[indice].properties.name + "<br>"
+        label.for = "vehicle1"
+
+        comboBox.appendChild(input)
+        comboBox.appendChild(label)
+    }
     function getMap() {
         var comboBox = document.getElementById("locais")
 
         for (var i = 0; i < municipiosBase.features.length; i++) {
-            var option = document.createElement("option")
-            option.value = i
-            option.innerHTML = municipiosBase.features[i].properties.name
-            comboBox.appendChild(option)
+            checkMap(comboBox, i)
+
         }
     }
 
