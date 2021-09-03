@@ -46,12 +46,15 @@
     }
 
     #locais {
+        margin-top: 10px;
         border: 1px solid #a7a7a7;
         width: auto;
         height: 389px;
         overflow: auto;
         text-align: left;
         padding: 5px 15px 0px 15px;
+        background-color: white;
+        border-top: solid 4px darkmagenta;
     }
 </style>
 
@@ -61,7 +64,7 @@
 <div class="row">
 
     <div class="salvar">
-        <legend style="font-weight: bold;font-size: 20;">Cidades</legend>
+        <legend style="font-weight: bold;font-size: 20;">Municipios no Mapa</legend>
 
         <div id="locais"></div>
 
@@ -142,16 +145,18 @@
             var input = document.createElement("input")
             input.type = "checkbox";
             input.id = i
-            console.log(dadosJsonGlobal.MunAtivos+"--"+i)
+            console.log(dadosJsonGlobal.MunAtivos + "--" + i)
 
-            if (dadosJsonGlobal.MunAtivos.indexOf(i)!=-1)
+            if (dadosJsonGlobal.MunAtivos.indexOf(i) != -1)
                 input.checked = true
 
-            input.value = municipiosBase.features[i].properties.name
-            input.setAttribute("onchange", 'alert(' + i + ')')
+            input.value = i
+            input.name = municipiosBase.features[i].properties.name
+
+            input.setAttribute("onchange", 'salvarMunicipio(this)')
 
             var label = document.createElement("label")
-            label.innerHTML = municipiosBase.features[i].properties.name + "<br>"
+            label.innerHTML = municipiosBase.features[i].properties.name + "<br><hr>"
             label.for = "vehicle1"
 
             comboBox.appendChild(input)
@@ -308,6 +313,21 @@
             console.log("salvando empresa")
             salvarDados()
         }
+    }
+
+    function salvarMunicipio(municipio) {
+        dadosJsonGlobal.MunAtivos
+        if (municipio.checked) {
+            dadosJsonGlobal.MunAtivos.push(municipio.value)
+            alert("Salvando..." + municipio.name)
+        }
+        else {
+            dadosJsonGlobal.MunAtivos.splice(municipio.value)
+            alert("Apagando..." + municipio.name)
+        }
+
+        //salvarDados()
+
     }
 
     function deletarEmpresa(indice) {
