@@ -31,17 +31,17 @@
                         base: {
                             color: '#00008b',
                             weight: 1,
-                            opacity: 0.8,
-                            fillColor: '#00008b',
-       
+                            opacity: 1,
+                            fillOpacity:0.7,
+
+                            fillColor: '#0067ac',
                         },
                         estado: {
-                            // color: '#d6d1c6',
-                            color: '#dddddd',
-                            weight: 1,
-                            fillOpacity:1,
-                            // fillColor: '#e0dbcf'
-                            fillColor: '#FDF5E6'
+                             color: '#474a51',
+                            //color: '#dddddd',
+                            weight: 1.5,
+                            fillOpacity:0.5,
+                             fillColor: '#e0dbcf'
                         },
                         destaque: {                                
                             // color: '#af8209',
@@ -95,7 +95,7 @@
         basemap.addTo(map);
 
 
-        L.geoJSON(estado, estilos.base).addTo(map)
+        L.geoJSON(estado, estilos.estado).addTo(map)
 
 
         L.geoJSON(municipios, estilos.base).bindPopup(function (layer) {
