@@ -1,4 +1,6 @@
 <script src="Mapa/RjGeo.js"></script>
+<script src="Mapa/CoordenadasGeo.js"></script>
+
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
 
@@ -76,7 +78,7 @@
             <option value="0"> -- TODAS -- </option>
         </select>
         <legend>Cidade</legend>
-        <input id="cidade" type="text">
+        <input onkeyup="preencherLocalizacao()" id="cidade" type="text">
         <legend>Bairro</legend>
         <input id="bairro" type="text">
         <legend>Coordenadas</legend>
@@ -341,8 +343,6 @@
             dadosJsonGlobal.MunAtivos.splice(indiceDelete, 1)
             salvarDados()
         }
-
-
     }
 
     function deletarEmpresa(indice) {
@@ -351,6 +351,39 @@
         salvarDados()
         document.location.reload(true);
     }
+
+
+function preencherLocalizacao() {
+    var cidade = document.getElementById("cidade").value
+
+    var localizacao=getLocalizacao(cidade)
+    if(localizacao)
+        document.getElementById("coordenadas").value=localizacao
+    else
+        document.getElementById("coordenadas").value=null
+
+}
+
+//Busca geolocalização de um Municipio especifico
+function getLocalizacao(cidade) {
+
+var localizacao = CoordenadasGeo.find(item => checkString(item.nome) === checkString(cidade));
+
+if (localizacao) {
+    var latitude = localizacao.latitude
+    var longitude = localizacao.longitude
+    return latitude+','+longitude 
+}
+return false
+}
+
+//Normaliza uma String(removendo acentos e caracteres especiais)
+function checkString(texto) {
+texto = texto.toLowerCase()
+texto = texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+return texto
+}
+
 
 
 </script>
