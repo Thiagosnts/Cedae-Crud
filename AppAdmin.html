@@ -14,10 +14,8 @@
     td,
     th {
         padding: 10px 20px 10px 20px;
-        border: solid 1px black;
-        background-color: white;
+        border: solid 1px #b3bdc3;
         text-align: center;
-
     }
 
     table {
@@ -25,6 +23,8 @@
         border-collapse: collapse;
         border-radius: 20px;
         box-shadow: 4px 4px 9px rgb(0 0 0 / 44%);
+        background-color: white;
+
 
     }
 
@@ -33,14 +33,29 @@
         text-align: center;
     }
 
-    html {
-        background-color: cadetblue;
-        border-top: solid 50px black;
+    .topo {
+        background-color: #0067ac;
+        border-top: solid 4px #a8e368;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        font-size: 1.625em;
+        line-height: 1.26923em;
+        color: white;
 
     }
 
+
+
+    html {
+        background-color: cadetblue;
+    }
+
+    body {
+        margin: 0 !important
+    }
+
     .salvar {
-        margin: auto;
+        margin: 0 auto auto auto;
         display: block;
         text-align: center;
     }
@@ -61,33 +76,62 @@
         background-color: white;
         border-top: solid 4px darkmagenta;
     }
+
+    .legenda {
+        font-weight: bold;
+        font-size: 18;
+    }
+
+    table tr:nth-child(2n+1) {
+        background: #e6e6e6;
+
+    }
+
+    input {
+    border-radius: 5px;
+    border-width: 1px;
+}
+button{
+    box-shadow: 2px 2px 9px rgb(0 0 0 / 34%)
+}
+
+select.listaConc {
+    padding: 3px;
+    border-radius: 5px;
+}
 </style>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-<h2>Admin</h2>
+<h2 class="topo">Cadastro de Regiões</h2>
 <div class="row">
 
     <div class="salvar">
-        <legend style="font-weight: bold;font-size: 20;">Municipios no Mapa</legend>
+        <legend class="legenda">Municipios no Mapa</legend>
 
         <div id="locais"></div>
 
     </div>
 
     <div class="salvar">
-        <legend>Concessionaria</legend>
+        <legend class="legenda">Concessionaria</legend>
         <select onchange="" class="listaConc" id="" name="">
             <option value="0"> -- TODAS -- </option>
         </select>
-        <legend>Cidade</legend>
+        <br>
+        <br>
+        <legend class="legenda">Cidade</legend>
         <input onkeyup="preencherLocalizacao()" id="cidade" type="text">
-        <legend>Bairro</legend>
+        <br>
+        <br>
+        <legend class="legenda">Bairro</legend>
         <input id="bairro" type="text">
-        <legend>Coordenadas</legend>
+        <br>
+        <br>
+        <legend class="legenda">Coordenadas</legend>
         <input id="coordenadas" type="text">
         <br>
-        <label style="font-size: 10px;"><b>Ex: </b>-22.059537, -42.8959</label>
+        <label style="font-size: 10px;"><b style="margin-right: 2px;">Ex:</b>-22.059537,-42.8959</label>
         <br>
         <br>
         <button onclick="salvarItem()">Adicionar</button>
@@ -106,7 +150,7 @@
     </div>
 
     <div class="salvar">
-        <legend>Concessionaria</legend>
+        <legend class="legenda">Concessionaria</legend>
         <input id="empresa" type="text">
 
         <br>
@@ -289,7 +333,7 @@
 
         var coordenadas = document.getElementById("coordenadas").value.split(",")
 
-       
+
         if (cidade && bairro && Concessionaria != 0) {
             var item = { "Concessionaria": Concessionaria, "Cidade": cidade, "Bairro": bairro, "Coordenadas": coordenadas }
             dadosJsonGlobal.item.push(item)
