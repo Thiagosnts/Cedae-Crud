@@ -3,7 +3,11 @@
         "Sanepar",
         "Rio Aguas"
     ],
-
+    "MunAtivos": [
+        1,
+        3,
+        5
+    ],
 item: [
         {
             "Concessionaria": "Sanepar",

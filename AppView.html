@@ -1,3 +1,25 @@
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+        integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+        crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
+        integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
+        crossorigin=""></script>
+    <script src="Mapa/RjGeo.js"></script>
+    <script src="Mapa/estado.js"></script>
+
+    <style>
+        #mapDIV {
+            height: 530px;
+            width: 740px;
+            border: solid 1px black;
+        }
+    </style>
+</head>
 <style>
     #searchResult li:nth-child(2n+1) {
         background: #f7f7f7;
@@ -14,24 +36,31 @@
     height: 36px;
     line-height: 36px;
 }
+.listaConc{
+text-indent: inherit!important;}
 
-    
+.styledSelect, .select-options {
+   display: none!important;
+}
+
+
 </style>
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
 
 
 <div class="wrapper">
 
     
     <div class="filter-tp5 filter">
-        <div class="form_inner"> <span id="searchFormMap" action="../Upload/Files/Localizador/pontos.json" class="">
+        <div class="form_inner"> <span id="searchFormMap" action="" class="">
                 <div class="row"> <label></label>
                     <div class="select">
                         <div class="select-inside">
                             <select onchange="carregarItens()" class="listaConc"
-                                id="dnn_ctr685_View_ddlStoreLocatorRegion" name="dnn$ctr685$View$ddlStoreLocatorRegion">
-                                <option value="0">-- TODAS REGIÕES --</option>
+                                id="" name="">
+                                <option value="0">-- CONCESSIONÁRIAS --</option>
                             </select>
                         </div>
                        
@@ -39,10 +68,10 @@
                 </div>
         </div>
         <div class="wrap-buscar">
-            <div class="row"> <label>Buscar</label> <input name="dnn$ctr685$View$tbSubject" type="text" id="busca"
-                    placeholder="Palavra-chave"></div>
+            <div class="row"> <label>Buscar</label> <input name="" type="text" id="busca"
+                    placeholder="Buscar Cidade"></div>
             <div class="row submit"> <input onclick="carregarItens(document.getElementById('busca').value);return false"
-                    type="submit" name="dnn$ctr685$View$btnSearch" value="OK" id="dnn_ctr685_View_btnSearch">
+                    type="submit" name="" value="OK" id="">
             </div>
         </div>
         </span>
@@ -57,6 +86,11 @@
                     237</span><a class="more-info" href="1">Mais informações</a>
             </li> -->
     </ul>
+    <div id='mapDIV'></div>
+
+
+
+
 </div>
 
 
@@ -65,13 +99,15 @@
 
 
 <script>
-    var dadosJson;
-    window.onload = function ()  {
+    var dadosJsonGlobal;
+    //url: 'https://teste.cedae.com.br/portals/0/sc/concessao/AppListaBack.aspx',
 
+    //$(window).load(function () {
         getDados() 
-    }
+        console.log("carregou itens...")
+    //});
 
- 
+
     function getDados() {
         $.ajax({
             url: 'AppListaBack.aspx',
@@ -79,9 +115,10 @@
             type: "POST",
             success: function (response) {
 
-                dadosJson = JSON.parse(response);
+                dadosJsonGlobal = JSON.parse(response);
                 carregarLista()
                 carregarItens()
+                renderizarMapa()
 
             },
             error: function () {
@@ -90,12 +127,70 @@
         })
     }
 
+
+    function renderizarMapa() {
+            var estilos = {
+                base: {
+                    color: '#00008b',
+                    weight: 1,
+                    opacity: 1,
+                    fillOpacity: 0.7,
+
+                    fillColor: '#0067ac',
+                },
+                estado2: {
+                    color: '#474a51',
+                    //color: '#dddddd',
+                    weight: 1.5,
+                    fillOpacity: 0.5,
+                    fillColor: '#e0dbcf'
+                },
+
+            };
+
+            var municipios = JSON.parse(JSON.stringify(municipiosBase))
+            municipios.features = []
+
+            for (var i = 0; i < municipiosBase.features.length; i++) {
+
+                if (dadosJsonGlobal.MunAtivos.indexOf(String(i)) != -1) {
+                    municipios.features.push(municipiosBase.features[i])
+                    console.log(municipiosBase.features[i].properties.name)
+                }
+            }
+
+            var map = L.map(document.getElementById('mapDIV'), {
+                center: [-22.059537, -42.8959],
+                zoom: 7.5
+            });
+            //var basemap = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            //var basemap = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
+            var basemap = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png', {
+            });
+            basemap.addTo(map);
+            L.geoJSON(estado, estilos.estado2).addTo(map)
+
+            L.geoJSON(municipios, estilos.base).bindPopup(function (layer) {
+                return layer.feature.properties.description;
+            }).addTo(map);
+
+            //showPop(map, "Rio Aguas", "Rio de Janeiro", [-22.059537, -42.7959])
+
+            function showPop(map, cidade, concessao, cod) {
+
+                var popup = L.popup({ className: "pop1" })
+                    .setLatLng(cod)
+                    .setContent(cidade + "<br>" + concessao)
+                    .openOn(map);
+            }
+        }
+
     function carregarLista() {
         var listaConc = document.getElementsByClassName('listaConc')[0]
-        for (var i = 0; i < dadosJson.Concessionarias.length; i++) {
+        for (var i = 0; i < dadosJsonGlobal.Concessionarias.length; i++) {
             var itemLista = document.createElement("option")
-            itemLista.value = dadosJson.Concessionarias[i]
-            itemLista.innerHTML = dadosJson.Concessionarias[i].toUpperCase()
+            itemLista.value = dadosJsonGlobal.Concessionarias[i]
+            itemLista.innerHTML = dadosJsonGlobal.Concessionarias[i].toUpperCase()
             listaConc.appendChild(itemLista)
         }
     }
@@ -133,7 +228,7 @@
 
     function filtraRegiao(cidade) {
         var regiao = document.getElementsByClassName('listaConc')[0].value
-        var lista = dadosJson.item
+        var lista = dadosJsonGlobal.item
 
         listaAtualizada = []
 
@@ -165,7 +260,7 @@
 
     function solicitarDadosMock() {
         var dadosString = '{ "Concessionarias": [ "Sanepar", "Rio Aguas" ],"item": [ { "Concessionaria": "Sanepar", "Cidade": "Rio de janeiro", "Bairro": "Campo Grande" },{ "Concessionaria": "Rio Aguas", "Cidade": "Sao Paulo", "Bairro": "Capao Redondo" } ] }'
-        dadosJson = JSON.parse(dadosString);
+        dadosJsonGlobal = JSON.parse(dadosString);
     }
 
 </script>
