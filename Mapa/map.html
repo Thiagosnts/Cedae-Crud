@@ -11,8 +11,8 @@
     <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
         integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
         crossorigin=""></script>
-    <script src="RjGeo.js"></script>
-    <script src="estado.js"></script>
+    <script src="municipiosBaseGeo.js"></script>
+    <script src="estadoGeo.js"></script>
 
     <style>
         #mapDIV {
@@ -74,7 +74,6 @@
 
                 if (dadosJsonGlobal.MunAtivos.indexOf(String(i)) != -1) {
                     municipios.features.push(municipiosBase.features[i])
-                    console.log(municipiosBase.features[i].properties.name)
                 }
             }
 
@@ -87,13 +86,11 @@
             var basemap = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png', {
             });
             basemap.addTo(map);
-            L.geoJSON(estado, estilos.estado2).addTo(map)
+            L.geoJSON(estadoBase, estilos.estado2).addTo(map)
 
             L.geoJSON(municipios, estilos.base).bindPopup(function (layer) {
                 return layer.feature.properties.description;
             }).addTo(map);
-
-            //showPop(map, "Rio Aguas", "Rio de Janeiro", [-22.059537, -42.7959])
 
             function showPop(map, cidade, concessao, cod) {
 

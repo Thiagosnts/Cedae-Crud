@@ -1,7 +1,7 @@
 <%@Page Language = "C#" %>
 <%@Import namespace="System.IO" %>
 <%
-    string DataFilename = Server.MapPath("Dados.json");
+    string DataFilename = Server.MapPath("Dados/dados.json");
     string Resposta =null;
 
     if(File.Exists(DataFilename))

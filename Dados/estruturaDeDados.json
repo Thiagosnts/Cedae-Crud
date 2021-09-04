@@ -17,7 +17,8 @@ item: [
         {
             "Concessionaria": "Sanepar",
             "Cidade": "Rio de janeiro",
-            "Bairro": "Campo Grande"
+            "Bairro": "Campo Grande",
+            "Coordenadas": []
         }
     ]
 }
