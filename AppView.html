@@ -23,6 +23,8 @@ text-indent: inherit!important;}
 
 
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
 
 
@@ -71,16 +73,17 @@ text-indent: inherit!important;}
 
 <script>
     var dadosJson;
+    //url: 'https://teste.cedae.com.br/portals/0/sc/concessao/AppListaBack.aspx',
 
-    $(window).load(function () {
+    //$(window).load(function () {
         getDados() 
         console.log("carregou itens...")
-    });
+    //});
 
 
     function getDados() {
         $.ajax({
-            url: 'https://teste.cedae.com.br/portals/0/sc/concessao/AppListaBack.aspx',
+            url: 'AppListaBack.aspx',
             cache: false,
             type: "POST",
             success: function (response) {

@@ -141,13 +141,14 @@
     function getMap() {
         var comboBox = document.getElementById("locais")
 
+        //console.log(dadosJsonGlobal.MunAtivos)
+
         for (var i = 0; i < municipiosBase.features.length; i++) {
             var input = document.createElement("input")
             input.type = "checkbox";
             input.id = i
-            console.log(dadosJsonGlobal.MunAtivos + "--" + i)
 
-            if (dadosJsonGlobal.MunAtivos.indexOf(i) != -1)
+            if (dadosJsonGlobal.MunAtivos.indexOf(String(i)) != -1)
                 input.checked = true
 
             input.value = i
@@ -199,6 +200,7 @@
             type: "POST",
             data: "dados=" + JSON.stringify(dadosJsonGlobal),
             success: function (response) {
+                //console.log("Salvo com sucesso !!!")
                 document.location.reload(true);
             },
             error: function () {
@@ -316,17 +318,18 @@
     }
 
     function salvarMunicipio(municipio) {
-        dadosJsonGlobal.MunAtivos
+       var indice = municipio.value
+       var indiceDelete = dadosJsonGlobal.MunAtivos.indexOf(indice)
+
         if (municipio.checked) {
             dadosJsonGlobal.MunAtivos.push(municipio.value)
-            alert("Salvando..." + municipio.name)
+            salvarDados()
         }
         else {
-            dadosJsonGlobal.MunAtivos.splice(municipio.value)
-            alert("Apagando..." + municipio.name)
+            dadosJsonGlobal.MunAtivos.splice(indiceDelete,1)
+            salvarDados()
         }
 
-        //salvarDados()
 
     }
 
