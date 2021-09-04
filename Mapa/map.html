@@ -3,6 +3,8 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
         integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
         crossorigin="" />
@@ -22,65 +24,58 @@
 </head>
 
 <body>
-    <select id="locais">
-        <!--<option value="volvo">Volvo</option>-->
 
-    </select>
     <div id='mapDIV'></div>
 
 
 
     <script>
-        var estilos = {
-            base: {
-                color: '#00008b',
-                weight: 1,
-                opacity: 1,
-                fillOpacity: 0.7,
+        var dadosJsonGlobal
 
-                fillColor: '#0067ac',
-            },
-            estado: {
-                color: '#474a51',
-                //color: '#dddddd',
-                weight: 1.5,
-                fillOpacity: 0.5,
-                fillColor: '#e0dbcf'
-            },
-            destaque: {
-                // color: '#af8209',
-                color: '#aaaaaa',
-                weight: 1,
-                fillOpacity: 1,
-                // fillColor: '#cd9600'
-                fillColor: '#FF8C00'
-            }
-        };
+        getDados()
 
-
-
-
-
-
-
-        var municipios = JSON.parse(JSON.stringify(municipiosBase))
-        var estado = JSON.parse(JSON.stringify(estado))
-
-        municipios.features = []
-
-
-
-
-
-        for (var i = 0; i < municipiosBase.features.length; i++) {
-
-            if (i < 10) {
-                municipios.features.push(municipiosBase.features[i])
-                console.log(municipiosBase.features[i].properties.name)
-            }
-
+        function getDados() {
+            $.ajax({
+                url: '../AppListaBack.aspx',
+                cache: false,
+                type: "POST",
+                data: "o",
+                success: function (response) {
+                    dadosJsonGlobal = JSON.parse(response)
+                    renderizarMapa()
+                },
+                error: function () {
+                    alert('deu ruim')
+                }
+            })
         }
 
+        function renderizarMapa() {
+            var estilos = {
+                base: {
+                    color: '#00008b',
+                    weight: 1,
+                    opacity: 1,
+                    fillOpacity: 0.7,
+
+                    fillColor: '#0067ac',
+                },
+                estado2: {
+                    color: '#474a51',
+                    //color: '#dddddd',
+                    weight: 1.5,
+                    fillOpacity: 0.5,
+                    fillColor: '#e0dbcf'
+                },
+                destaque: {
+                    // color: '#af8209',
+                    color: '#aaaaaa',
+                    weight: 1,
+                    fillOpacity: 1,
+                    // fillColor: '#cd9600'
+                    fillColor: '#FF8C00'
+                }
+            };
 
 
 
@@ -88,26 +83,49 @@
 
 
 
-        var map = L.map(document.getElementById('mapDIV'), {
-            center: [-22.059537, -42.8959],
-            zoom: 7.5
-        });
-        //var basemap = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            var municipios = JSON.parse(JSON.stringify(municipiosBase))
+
+
+            municipios.features = []
+
+
+
+
+
+            for (var i = 0; i < municipiosBase.features.length; i++) {
+
+                if (dadosJsonGlobal.MunAtivos.indexOf(String(i)) != -1) {
+                    municipios.features.push(municipiosBase.features[i])
+                    console.log(municipiosBase.features[i].properties.name)
+                }
+
+            }
+
+
+
+
+
+
+
+
+            var map = L.map(document.getElementById('mapDIV'), {
+                center: [-22.059537, -42.8959],
+                zoom: 7.5
+            });
+            //var basemap = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
             //var basemap = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
             var basemap = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png', {
-        });
+            });
 
-        basemap.addTo(map);
-
-
-        L.geoJSON(estado, estilos.estado).addTo(map)
+            basemap.addTo(map);
 
 
-        L.geoJSON(municipios, estilos.base).bindPopup(function (layer) {
-            return layer.feature.properties.description;
-        }).addTo(map);
+            L.geoJSON(estado, estilos.estado2).addTo(map)
 
 
+            L.geoJSON(municipios, estilos.base).bindPopup(function (layer) {
+                return layer.feature.properties.description;
+            }).addTo(map);
 
 
 
@@ -118,42 +136,37 @@
 
 
 
-        // var themunicipios = L.geoJSON(municipios, {
-        //     color: '#00008b',
-
-        //     weight: 1,
-
-        //     dashArray: '0 0 0 ',
-        // });
-
-        // var a = themunicipios.bindTooltip(function (layer) {return layer.feature.properties.name+"<br>"+layer.feature.properties.description;})
 
 
-        // themunicipios.addTo(map);
+            // var themunicipios = L.geoJSON(municipios, {
+            //     color: '#00008b',
+
+            //     weight: 1,
+
+            //     dashArray: '0 0 0 ',
+            // });
+
+            // var a = themunicipios.bindTooltip(function (layer) {return layer.feature.properties.name+"<br>"+layer.feature.properties.description;})
 
 
-        mostrarMapa(map, "Rio Aguas", "Rio de Janeiro", [-22.059537, -42.7959])
+            // themunicipios.addTo(map);
 
 
-        function mostrarMapa(map, cidade, concessao, cod) {
+            mostrarMapa(map, "Rio Aguas", "Rio de Janeiro", [-22.059537, -42.7959])
 
-            var popup = L.popup({ className: "pop1" })
-                .setLatLng(cod)
-                .setContent(cidade + "<br>" + concessao)
-                .openOn(map);
+
+            function mostrarMapa(map, cidade, concessao, cod) {
+
+                var popup = L.popup({ className: "pop1" })
+                    .setLatLng(cod)
+                    .setContent(cidade + "<br>" + concessao)
+                    .openOn(map);
+            }
+
+
+
+
         }
-
-
-
-        var comboBox = document.getElementById("locais")
-
-        for (var i = 0; i < municipios.features.length; i++) {
-            var option = document.createElement("option")
-            option.value = i
-            option.innerHTML = municipiosBase.features[i].properties.name
-            comboBox.appendChild(option)
-        }
-
     </script>
 
 

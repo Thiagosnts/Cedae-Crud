@@ -200,8 +200,7 @@
             type: "POST",
             data: "dados=" + JSON.stringify(dadosJsonGlobal),
             success: function (response) {
-                //console.log("Salvo com sucesso !!!")
-                document.location.reload(true);
+                console.log("Salvo com sucesso !!!")
             },
             error: function () {
                 alert('deu ruim')
@@ -297,6 +296,7 @@
             dadosJsonGlobal.item.push(item)
             console.log("salvando item")
             salvarDados()
+            document.location.reload(true);
         }
     }
 
@@ -305,6 +305,8 @@
         dadosJsonGlobal.item.splice(indice, 1)
         console.log("deletando item " + indice)
         salvarDados()
+        document.location.reload(true);
+
     }
 
     function salvarEmpresa() {
@@ -314,6 +316,7 @@
             dadosJsonGlobal.Concessionarias.push(empresa)
             console.log("salvando empresa")
             salvarDados()
+            document.location.reload(true);
         }
     }
 
@@ -337,6 +340,7 @@
         dadosJsonGlobal.Concessionarias.splice(indice, 1)
         console.log("deletando item " + indice)
         salvarDados()
+        document.location.reload(true);
     }
 
 
