@@ -46,9 +46,7 @@
 
 
 
-    html {
-        background-color: cadetblue;
-    }
+ 
 
     body {
         margin: 0 !important
@@ -79,7 +77,7 @@
 
     .legenda {
         font-weight: bold;
-        font-size: 18;
+        font-size: 20;
     }
 
     table tr:nth-child(2n+1) {
@@ -88,17 +86,19 @@
     }
 
     input {
-    border-radius: 5px;
-    border-width: 1px;
-}
-button{
-    box-shadow: 2px 2px 9px rgb(0 0 0 / 34%)
-}
+        border-radius: 5px;
+        border-width: 1px;
+    }
 
-select.listaConc {
-    padding: 3px;
-    border-radius: 5px;
-}
+    button {
+        box-shadow: 2px 2px 9px rgb(0 0 0 / 34%)
+    }
+
+    select.listaConc {
+        padding: 3px;
+        border-radius: 5px;
+    }
+    
 </style>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -107,65 +107,69 @@ select.listaConc {
 <div class="row">
 
     <div class="salvar">
-        <legend class="legenda">Municipios no Mapa</legend>
+        <fieldset>
+            <legend class="legenda">Municipios no Mapa</legend>
 
-        <div id="locais"></div>
-
+            <div id="locais"></div>
+        </fieldset>
     </div>
 
     <div class="salvar">
-        <legend class="legenda">Concessionaria</legend>
-        <select onchange="" class="listaConc" id="" name="">
-            <option value="0"> -- TODAS -- </option>
-        </select>
-        <br>
-        <br>
-        <legend class="legenda">Cidade</legend>
-        <input onkeyup="preencherLocalizacao()" id="cidade" type="text">
-        <br>
-        <br>
-        <legend class="legenda">Bairro</legend>
-        <input id="bairro" type="text">
-        <br>
-        <br>
-        <legend class="legenda">Coordenadas</legend>
-        <input id="coordenadas" type="text">
-        <br>
-        <label style="font-size: 10px;"><b style="margin-right: 2px;">Ex:</b>-22.059537,-42.8959</label>
-        <br>
-        <br>
-        <button onclick="salvarItem()">Adicionar</button>
+        <fieldset>
+            <legend class="legenda">Concessionaria</legend>
+            <select onchange="" class="listaConc" id="" name="">
+                <option value="0"> -- TODAS -- </option>
+            </select>
+            <br>
+            <br>
+            <legend class="legenda">Cidade</legend>
+            <input onkeyup="preencherLocalizacao()" id="cidade" type="text">
+            <br>
+            <br>
+            <legend class="legenda">Bairro</legend>
+            <input id="bairro" type="text">
+            <br>
+            <br>
+            <legend class="legenda">Coordenadas</legend>
+            <input id="coordenadas" type="text">
+            <br>
+            <label style="font-size: 10px;"><b style="margin-right: 2px;">Ex:</b>-22.059537,-42.8959</label>
+            <br>
+            <br>
+            <button onclick="salvarItem()">Adicionar</button>
 
-        <Table id="tabela">
-            <tr>
-                <th>Concessionaria</th>
-                <th>Cidade</th>
-                <th>Bairro</th>
-                <th></th>
-            </tr>
+            <Table id="tabela">
+                <tr>
+                    <th>Concessionaria</th>
+                    <th>Cidade</th>
+                    <th>Bairro</th>
+                    <th></th>
+                </tr>
 
-        </Table>
+            </Table>
 
-
+        </fieldset>
     </div>
 
     <div class="salvar">
-        <legend class="legenda">Concessionaria</legend>
-        <input id="empresa" type="text">
+        <fieldset>
+            <legend class="legenda">Concessionaria</legend>
+            <input id="empresa" type="text">
 
-        <br>
-        <br>
-        <button onclick="salvarEmpresa()">Adicionar</button>
-        <br>
-        <br>
+            <br>
+            <br>
+            <button onclick="salvarEmpresa()">Adicionar</button>
+            <br>
+            <br>
 
-        <Table id="Concessionarias">
-            <tr>
-                <th>Concessionarias</th>
-                <th></th>
-            </tr>
+            <Table id="Concessionarias">
+                <tr>
+                    <th>Concessionarias</th>
+                    <th></th>
+                </tr>
 
-        </Table>
+            </Table>
+        </fieldset>
     </div>
 
 
