@@ -1,4 +1,4 @@
-estado = {
+estadoBase = {
     "type": "FeatureCollection",
     "crs": {
         "type": "name",

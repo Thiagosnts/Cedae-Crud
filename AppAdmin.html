@@ -1,5 +1,5 @@
-<script src="Mapa/RjGeo.js"></script>
-<script src="Mapa/CoordenadasGeo.js"></script>
+<script src="Mapa/municipiosBaseGeo.js"></script>
+<script src="Mapa/coordenadasJson.js"></script>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
@@ -28,7 +28,8 @@
 
     }
 
-    h2,input {
+    h2,
+    input {
         text-align: center;
     }
 
@@ -87,13 +88,8 @@
         <input id="coordenadas" type="text">
         <br>
         <label style="font-size: 10px;"><b>Ex: </b>-22.059537, -42.8959</label>
-
-
-        <!---<select id="locais"></select>-->
-
         <br>
         <br>
-
         <button onclick="salvarItem()">Adicionar</button>
 
         <Table id="tabela">
@@ -102,8 +98,6 @@
                 <th>Cidade</th>
                 <th>Bairro</th>
                 <th></th>
-
-                <!--<th><button>Apagar</button></th>-->
             </tr>
 
         </Table>
@@ -126,10 +120,7 @@
                 <th>Concessionarias</th>
                 <th></th>
             </tr>
-            <!-- <tr>
-                <td>Rio Aguas</td>
-                <td><button>Apagar</button></td>
-            </tr> -->
+
         </Table>
     </div>
 
@@ -148,8 +139,6 @@
 
     function getMap() {
         var comboBox = document.getElementById("locais")
-
-        //console.log(dadosJsonGlobal.MunAtivos)
 
         for (var i = 0; i < municipiosBase.features.length; i++) {
             var input = document.createElement("input")
@@ -355,36 +344,36 @@
     }
 
 
-function preencherLocalizacao() {
-    var cidade = document.getElementById("cidade").value
+    function preencherLocalizacao() {
+        var cidade = document.getElementById("cidade").value
 
-    var localizacao=getLocalizacao(cidade)
-    if(localizacao)
-        document.getElementById("coordenadas").value=localizacao
-    else
-        document.getElementById("coordenadas").value=null
+        var localizacao = getLocalizacao(cidade)
+        if (localizacao)
+            document.getElementById("coordenadas").value = localizacao
+        else
+            document.getElementById("coordenadas").value = null
 
-}
+    }
 
-//Busca geolocalização de um Municipio especifico
-function getLocalizacao(cidade) {
+    //Busca geolocalização de um Municipio especifico
+    function getLocalizacao(cidade) {
 
-var localizacao = CoordenadasGeo.find(item => checkString(item.nome) === checkString(cidade));
+        var localizacao = CoordenadasGeo.find(item => checkString(item.nome) === checkString(cidade));
 
-if (localizacao) {
-    var latitude = localizacao.latitude
-    var longitude = localizacao.longitude
-    return latitude+','+longitude 
-}
-return false
-}
+        if (localizacao) {
+            var latitude = localizacao.latitude
+            var longitude = localizacao.longitude
+            return latitude + ',' + longitude
+        }
+        return false
+    }
 
-//Normaliza uma String(removendo acentos e caracteres especiais)
-function checkString(texto) {
-texto = texto.toLowerCase()
-texto = texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-return texto
-}
+    //Normaliza uma String(removendo acentos e caracteres especiais)
+    function checkString(texto) {
+        texto = texto.toLowerCase()
+        texto = texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        return texto
+    }
 
 
 

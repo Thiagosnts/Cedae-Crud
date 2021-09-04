@@ -2,6 +2,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://cedae.com.br/Portals/_default/Skins/Cedae/styles/main.css" rel="stylesheet">
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
         integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
@@ -9,8 +10,8 @@
     <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
         integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
         crossorigin=""></script>
-    <script src="Mapa/RjGeo.js"></script>
-    <script src="Mapa/estado.js"></script>
+    <script src="Mapa/municipiosBaseGeo.js"></script>
+    <script src="Mapa/estadoGeo.js"></script>
 
     <style>
         #mapDIV {
@@ -63,7 +64,8 @@
         <div class="form_inner"> <span id="searchFormMap" action="" class="">
                 <div class="row"> <label></label>
                     <div class="select">
-                        <div class="select-inside">
+                        <div class="">
+                            <!--<div class="select-inside">-->
                             <select onchange="carregarItens()" class="listaConc" id="" name="">
                                 <option value="0">-- CONCESSIONÁRIAS --</option>
                             </select>
@@ -162,7 +164,6 @@
 
             if (dadosJsonGlobal.MunAtivos.indexOf(String(i)) != -1) {
                 municipios.features.push(municipiosBase.features[i])
-                console.log(municipiosBase.features[i].properties.name)
             }
         }
 
@@ -175,7 +176,7 @@
         //var basemap = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png', {
         });
         basemap.addTo(map);
-        L.geoJSON(estado, estilos.estado2).addTo(map)
+        L.geoJSON(estadoBase, estilos.estado2).addTo(map)
 
         L.geoJSON(municipios, estilos.base).bindPopup(function (layer) {
             return layer.feature.properties.description;
@@ -206,7 +207,7 @@
 
     function carregarItens(cidade) {
         limparItens();
-        var modeloItens = '<h4 class="local-name">#CIDADE#</h4> <span class="adress"><b>Bairro: </b>#BAIRRO#</span><span style="display:block" class="more" href="1">#EMPRESA#</span>'
+        var modeloItens = '<h4 class="local-name">#CIDADE#</h4> <span class="adress"><b>Bairro: </b>#BAIRRO#</span><span class="more-info" href="1">#EMPRESA#</span>'
         var listaItens = document.getElementById('searchResult')
 
         var itemJson = filtraRegiao(cidade)
@@ -261,7 +262,6 @@
 
     function buscarCidade(lista, cidade) {
         listaAtualizada = []
-        console.log(cidade)
         for (var i = 0; i < lista.length; i++) {
             if (lista[i].Cidade == cidade)
                 listaAtualizada.push(lista[i])
@@ -277,17 +277,10 @@
 
     function showPopMap(item) {
         var municipio = item.getElementsByClassName('local-name')[0].innerHTML
-        var Concessionaria = item.getElementsByClassName('more')[0].innerHTML
+        var Concessionaria = item.getElementsByClassName('more-info')[0].innerHTML
         var coordenadas=item.getElementsByClassName('coordenada')[0].value
 
-    
-
         showPop(Concessionaria, municipio, coordenadas.split(","))
-
-        
-        console.log(coordenadas.value)
-
-
     }
 
 </script>
