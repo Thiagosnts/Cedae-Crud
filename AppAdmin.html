@@ -289,16 +289,22 @@
 
         var coordenadas = document.getElementById("coordenadas").value.split(",")
 
-        if (coordenadas.length < 2) {
-            alert("Coordenadas Invalidas !!!")
-            return 0
-        }
+       
         if (cidade && bairro && Concessionaria != 0) {
             var item = { "Concessionaria": Concessionaria, "Cidade": cidade, "Bairro": bairro, "Coordenadas": coordenadas }
             dadosJsonGlobal.item.push(item)
             console.log("salvando item")
             salvarDados()
             document.location.reload(true);
+        }
+        else {
+            alert("Campo vazio ou Invalido !!!")
+            return 0
+        }
+
+        if (coordenadas.length != 2) {
+            alert("Coordenadas Invalidas !!!")
+            return 0
         }
     }
 
