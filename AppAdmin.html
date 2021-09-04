@@ -11,6 +11,11 @@
         font-size: 20;
     }
 
+    html {
+        background-color: #ebebeb;
+        font-family:courier,arial,helvetica;
+    }
+
     td,
     th {
         padding: 10px 20px 10px 20px;
@@ -21,9 +26,9 @@
     table {
         margin: 50px auto auto auto;
         border-collapse: collapse;
-        border-radius: 20px;
         box-shadow: 4px 4px 9px rgb(0 0 0 / 44%);
         background-color: white;
+        border-top: solid 4px #a8e368;
 
 
     }
@@ -41,19 +46,21 @@
         font-size: 1.625em;
         line-height: 1.26923em;
         color: white;
-
+        box-shadow: 2px 3px 2px rgb(0 0 0 / 31%);
     }
 
-
-
- 
+    fieldset {
+        box-shadow: 0px 0px 10px rgb(0 0 0 / 44%);
+        padding: 25px;
+        border-radius: 5px;
+    }
 
     body {
         margin: 0 !important
     }
 
     .salvar {
-        margin: 0 auto auto auto;
+        margin: 0 10px 0 10px;
         display: block;
         text-align: center;
     }
@@ -77,12 +84,13 @@
 
     .legenda {
         font-weight: bold;
-        font-size: 20;
+        font-size: 18;
+        font-family:arial,helvetica;
+
     }
 
     table tr:nth-child(2n+1) {
         background: #e6e6e6;
-
     }
 
     input {
@@ -93,12 +101,15 @@
     button {
         box-shadow: 2px 2px 9px rgb(0 0 0 / 34%)
     }
+    
+    .bordaVerde{
+        border-bottom: solid 4px #53b045;
+    }
 
     select.listaConc {
         padding: 3px;
         border-radius: 5px;
     }
-    
 </style>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -108,7 +119,7 @@
 
     <div class="salvar">
         <fieldset>
-            <legend class="legenda">Municipios no Mapa</legend>
+            <legend class="legenda bordaVerde">Municipios no Mapa</legend>
 
             <div id="locais"></div>
         </fieldset>
@@ -116,12 +127,13 @@
 
     <div class="salvar">
         <fieldset>
-            <legend class="legenda">Concessionaria</legend>
+            <legend class="legenda bordaVerde">Concessionaria</legend>
             <select onchange="" class="listaConc" id="" name="">
                 <option value="0"> -- TODAS -- </option>
             </select>
             <br>
             <br>
+
             <legend class="legenda">Cidade</legend>
             <input onkeyup="preencherLocalizacao()" id="cidade" type="text">
             <br>
@@ -153,14 +165,14 @@
 
     <div class="salvar">
         <fieldset>
-            <legend class="legenda">Concessionaria</legend>
+            <legend class="legenda bordaVerde">Concessionaria</legend>
             <input id="empresa" type="text">
 
             <br>
             <br>
             <button onclick="salvarEmpresa()">Adicionar</button>
-            <br>
-            <br>
+
+
 
             <Table id="Concessionarias">
                 <tr>
