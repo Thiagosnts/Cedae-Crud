@@ -79,8 +79,12 @@
         <input id="cidade" type="text">
         <legend>Bairro</legend>
         <input id="bairro" type="text">
+        <legend>Coordenadas</legend>
+        <input id="coordenadas" type="text">
         <br>
-        <br>
+        <label style="font-size: 10px;"><b>Ex: </b>-22.059537, -42.8959</label>
+
+
         <!---<select id="locais"></select>-->
 
         <br>
@@ -290,9 +294,14 @@
         var cidade = document.getElementById("cidade").value
         var bairro = document.getElementById("bairro").value
 
+        var coordenadas = document.getElementById("coordenadas").value.split(",")
 
+        if (coordenadas.length < 2) {
+            alert("Coordenadas Invalidas !!!")
+            return 0
+        }
         if (cidade && bairro && Concessionaria != 0) {
-            var item = { "Concessionaria": Concessionaria, "Cidade": cidade, "Bairro": bairro }
+            var item = { "Concessionaria": Concessionaria, "Cidade": cidade, "Bairro": bairro, "Coordenadas": coordenadas }
             dadosJsonGlobal.item.push(item)
             console.log("salvando item")
             salvarDados()
@@ -321,15 +330,15 @@
     }
 
     function salvarMunicipio(municipio) {
-       var indice = municipio.value
-       var indiceDelete = dadosJsonGlobal.MunAtivos.indexOf(indice)
+        var indice = municipio.value
+        var indiceDelete = dadosJsonGlobal.MunAtivos.indexOf(indice)
 
         if (municipio.checked) {
             dadosJsonGlobal.MunAtivos.push(municipio.value)
             salvarDados()
         }
         else {
-            dadosJsonGlobal.MunAtivos.splice(indiceDelete,1)
+            dadosJsonGlobal.MunAtivos.splice(indiceDelete, 1)
             salvarDados()
         }
 
