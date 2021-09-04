@@ -219,13 +219,13 @@
             aux = aux.replace('#CIDADE#', itemJson[i].Cidade);
             aux = aux.replace('#EMPRESA#', itemJson[i].Concessionaria);
 
-            var coordInput = document.createElement('input')
-            coordInput.value=String(itemJson[i].Coordenadas).trim()
+            //var coordInput = document.createElement('input')
+            var coordInput=String(itemJson[i].Coordenadas).replaceAll(" ","")
 
-            item.innerHTML = aux
+            item.innerHTML = "<input class='coordenada' hidden value="+coordInput+">"+aux
             item.setAttribute("onclick", "showPopMap(this)")
             item.className = "item"
-            listaItens.appendChild(item)
+            listaItens.appendChild(item)    
 
         }
     }
@@ -278,11 +278,14 @@
     function showPopMap(item) {
         var municipio = item.getElementsByClassName('local-name')[0].innerHTML
         var Concessionaria = item.getElementsByClassName('more')[0].innerHTML
+        var coordenadas=item.getElementsByClassName('coordenada')[0].value
 
-        showPop(Concessionaria, municipio, [" -22.059537"," -42.8959"])
+    
+
+        showPop(Concessionaria, municipio, coordenadas.split(","))
 
         
-        console.log(item)
+        console.log(coordenadas.value)
 
 
     }
