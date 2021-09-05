@@ -1,3 +1,5 @@
+<html>
+
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link href="Style/estilo.css" rel="stylesheet">
@@ -7,81 +9,85 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 
-<h2 class="topo">Cadastro de Regiões</h2>
-<div class="row">
 
-    <div class="salvar">
-        <fieldset>
-            <legend class="legenda bordaVerde">Municipios Ativos</legend>
+<body class="body-region">
+    <h2 class="topo align-center">Cadastro de Regiões</h2>
+    <div class="row-region">
 
-            <div id="locais"></div>
-        </fieldset>
+        <div class="col-region">
+            <fieldset>
+                <legend class="legenda bordaVerde">Municipios Ativos</legend>
+
+                <div id="locais"></div>
+            </fieldset>
+        </div>
+
+        <div class="col-region">
+            <fieldset>
+                <legend class="legenda bordaVerde">Concessionaria</legend>
+                <select onchange="" class="listaConc" id="" name="">
+                    <option value="0"> -- TODAS -- </option>
+                </select>
+                <br>
+                <br>
+
+                <legend class="legenda">Cidade</legend>
+                <input onkeyup="preencherLocalizacao()" id="cidade" type="text">
+                <br>
+                <br>
+                <legend class="legenda">Bairro</legend>
+                <input id="bairro" type="text">
+                <br>
+                <br>
+                <legend class="legenda">Coordenadas</legend>
+                <input id="coordenadas" type="text">
+                <br>
+                <label style="font-size: 10px;"><b style="margin-right: 2px;">Ex:</b>-22.059537,-42.8959</label>
+                <br>
+                <br>
+                <button onclick="salvarItem()">Adicionar</button>
+
+                <table class="table-region"  id="tabela">
+                    <tr>
+                        <th class="tabel-label">Concessionaria</th>
+                        <th class="tabel-label">Cidade</th>
+                        <th class="tabel-label">Bairro</th>
+                        <th class="tabel-label"></th>
+                    </tr>
+
+                </Table>
+
+            </fieldset>
+        </div>
+
+        <div class="col-region">
+            <fieldset>
+                <legend class="legenda bordaVerde">Concessionaria</legend>
+                <input id="empresa" type="text">
+
+                <br>
+                <br>
+                <button onclick="salvarEmpresa()">Adicionar</button>
+
+
+
+                <table class="table-region"  id="Concessionarias">
+                    <tr>
+                        <th class="tabel-label">Concessionarias</th>
+                        <th class="tabel-label"></th>
+                    </tr>
+
+                </Table>
+            </fieldset>
+        </div>
+
+
     </div>
+    <br>
+    <br>
+</body>
 
-    <div class="salvar">
-        <fieldset>
-            <legend class="legenda bordaVerde">Concessionaria</legend>
-            <select onchange="" class="listaConc" id="" name="">
-                <option value="0"> -- TODAS -- </option>
-            </select>
-            <br>
-            <br>
-
-            <legend class="legenda">Cidade</legend>
-            <input onkeyup="preencherLocalizacao()" id="cidade" type="text">
-            <br>
-            <br>
-            <legend class="legenda">Bairro</legend>
-            <input id="bairro" type="text">
-            <br>
-            <br>
-            <legend class="legenda">Coordenadas</legend>
-            <input id="coordenadas" type="text">
-            <br>
-            <label style="font-size: 10px;"><b style="margin-right: 2px;">Ex:</b>-22.059537,-42.8959</label>
-            <br>
-            <br>
-            <button onclick="salvarItem()">Adicionar</button>
-
-            <Table id="tabela">
-                <tr>
-                    <th>Concessionaria</th>
-                    <th>Cidade</th>
-                    <th>Bairro</th>
-                    <th></th>
-                </tr>
-
-            </Table>
-
-        </fieldset>
-    </div>
-
-    <div class="salvar">
-        <fieldset>
-            <legend class="legenda bordaVerde">Concessionaria</legend>
-            <input id="empresa" type="text">
-
-            <br>
-            <br>
-            <button onclick="salvarEmpresa()">Adicionar</button>
-
-
-
-            <Table id="Concessionarias">
-                <tr>
-                    <th>Concessionarias</th>
-                    <th></th>
-                </tr>
-
-            </Table>
-        </fieldset>
-    </div>
-
-
-</div>
-<br>
-<br>
-
+</html>
 
 <script>
     var dadosJsonGlobal;

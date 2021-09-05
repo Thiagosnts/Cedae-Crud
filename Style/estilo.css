@@ -34,25 +34,22 @@
     cursor: pointer;
 }
 
-th {
+.tabel-label {
     background-color: darkmagenta !important;
     color: white;
     font-size: 20;
 }
 
-html {
-    background-color: #ebebeb;
-    font-family:courier,arial,helvetica;
-}
 
-td,
-th {
+
+.col-region td,
+.tabel-label {
     padding: 10px 20px 10px 20px;
-    border: solid 1px #b3bdc3;
+    /*border: solid 1px #b3bdc3;*/
     text-align: center;
 }
 
-table {
+.table-region {
     margin: 50px auto auto auto;
     border-collapse: collapse;
     box-shadow: 4px 4px 9px rgb(0 0 0 / 44%);
@@ -62,8 +59,7 @@ table {
 
 }
 
-h2,
-input {
+.align-center {
     text-align: center;
 }
 
@@ -78,23 +74,24 @@ input {
     box-shadow: 2px 3px 2px rgb(0 0 0 / 31%);
 }
 
-fieldset {
+.col-region fieldset {
     box-shadow: 0px 0px 10px rgb(0 0 0 / 44%);
     padding: 25px;
     border-radius: 5px;
 }
 
-body {
-    margin: 0 !important
+.body-region {
+    margin: 0 !important;
+    font-family:courier,arial,helvetica;
 }
 
-.salvar {
+.col-region {
     margin: 0 10px 0 10px;
     display: block;
     text-align: center;
 }
 
-.row {
+.row-region {
     display: grid;
     grid-template-columns: auto auto auto;
 }
@@ -111,23 +108,23 @@ body {
     border-top: solid 4px darkmagenta;
 }
 
-.legenda {
+.col-region .legenda {
     font-weight: bold;
     font-size: 18;
     font-family:arial,helvetica;
 
 }
 
-table tr:nth-child(2n+1) {
+.col-region table tr:nth-child(2n+1) {
     background: #e6e6e6;
 }
 
-input {
+.col-region input {
     border-radius: 5px;
     border-width: 1px;
 }
 
-button {
+.col-region button {
     box-shadow: 2px 2px 9px rgb(0 0 0 / 34%)
 }
 
