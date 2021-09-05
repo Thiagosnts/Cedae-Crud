@@ -137,3 +137,63 @@ select.listaConc {
     padding: 3px;
     border-radius: 5px;
 }
+
+#mapDIV .leaflet-popup-content-wrapper{border-radius: 0px!important;
+border-top: solid 5px#0067ac!important;}
+
+
+    .leaflet-popup-content {
+        margin: 13px 19px;
+        line-height: 1.4;
+        }
+
+    .leaflet-popup-content .local-name{
+        font-size: 32px;
+        color:#797979;
+        max-width: 380px;
+    }
+
+    .leaflet-popup-content .region{
+        font-family: 'Conv_HelveticaNeueLTPro-Bd';
+
+        font-size: 18px;
+        color: #797979;
+        text-transform: uppercase;
+        height:33px;
+        max-width: 380px;
+        margin-bottom: 33px;
+    }
+
+    .leaflet-popup-content .adress{
+        font-family: 'Conv_HelveticaNeueLTPro-Bd';
+
+        font-size: 25px;
+        color: #43453f;
+        max-width: 385px;
+    }
+
+    .leaflet-popup-content .region span{
+        font-family: 'Conv_HelveticaNeueLTPro-Bd';
+        border-bottom: 6px solid #8cc63f;
+        padding-bottom: 5px;
+        padding-right: 10px;
+        font-weight: 600;
+    }
+
+    .leaflet-popup-content .adress b {
+        font-family: 'Conv_HelveticaNeueLTPro-Bd';
+        font-size: 25px;
+        font-weight: bold;
+    }
+
+   /* .leaflet-container a.leaflet-popup-close-button {
+        position: absolute;
+        top: 33px;
+        right: 23px;	
+        text-align: center;
+        width: 30px;
+        height: 30px;
+        text-decoration: none;
+        background: url(https://cedae.com.br/DesktopModules/cedae_public_StoreLocator/css/images/btn-close-map.png);
+        text-indent: -999999em;
+    }*/

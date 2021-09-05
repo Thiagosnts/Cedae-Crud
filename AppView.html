@@ -132,11 +132,13 @@
 
     }
 
-    function showPop(cidade, concessao, cod) {
+    function showPop(concessao, cidade, cod) {
+
+        var conteudo='<div class="local-name">'+cidade+'</div><div class="region"> <span>Campo Grande</span></div><div class="adress"> <b>Concessionária: </b>'+concessao+'</div>'
 
         var popup = L.popup({ className: "pop1" })
             .setLatLng(cod)
-            .setContent(cidade + "<br>" + concessao)
+            .setContent(conteudo)
             .openOn(map);
     }
 
