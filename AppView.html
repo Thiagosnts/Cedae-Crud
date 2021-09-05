@@ -1,64 +1,18 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="Style/leaflet.css" rel="stylesheet">
     <link href="https://cedae.com.br/Portals/_default/Skins/Cedae/styles/main.css" rel="stylesheet">
+    <link href="Style/estilo.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
-        integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
-        crossorigin="" />
-    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
-        integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
-        crossorigin=""></script>
+    <script src="Scripts/leaflet.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <script src="Mapa/municipiosBaseGeo.js"></script>
     <script src="Mapa/estadoGeo.js"></script>
-
-    <style>
-        #mapDIV {
-            height: 530px;
-            width: 740px;
-            border: solid 1px black;
-        }
-    </style>
 </head>
-<style>
-    #searchResult li:nth-child(2n+1) {
-        background: #f7f7f7;
-        width: 100%;
-    }
-
-    #searchResult li .more {
-        font-family: Conv_HelveticaNeueLTPro-Bd;
-        display: block;
-        color: #0072bc;
-        font-size: 18px;
-        position: relative;
-        float: left;
-        width: 100%;
-        height: 36px;
-        line-height: 36px;
-    }
-
-    .listaConc {
-        text-indent: inherit !important;
-    }
-
-    .styledSelect,
-    .select-options {
-        display: none !important;
-    }
-
-    .item {
-        cursor: pointer;
-    }
-</style>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-
-
 
 <div class="wrapper">
-
 
     <div class="filter-tp5 filter">
         <div class="form_inner"> <span id="searchFormMap" action="" class="">
@@ -172,8 +126,8 @@
             zoom: 7.5
         });
         var basemap = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        //var basemap = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
-        //var basemap = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png', {
+            //var basemap = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
+            //var basemap = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png', {
         });
         basemap.addTo(map);
         L.geoJSON(estadoBase, estilos.estado2).addTo(map)
@@ -221,12 +175,12 @@
             aux = aux.replace('#EMPRESA#', itemJson[i].Concessionaria);
 
             //var coordInput = document.createElement('input')
-            var coordInput=String(itemJson[i].Coordenadas).replaceAll(" ","")
+            var coordInput = String(itemJson[i].Coordenadas).replaceAll(" ", "")
 
-            item.innerHTML = "<input class='coordenada' hidden value="+coordInput+">"+aux
+            item.innerHTML = "<input class='coordenada' hidden value=" + coordInput + ">" + aux
             item.setAttribute("onclick", "showPopMap(this)")
             item.className = "item"
-            listaItens.appendChild(item)    
+            listaItens.appendChild(item)
 
         }
     }
@@ -278,7 +232,7 @@
     function showPopMap(item) {
         var municipio = item.getElementsByClassName('local-name')[0].innerHTML
         var Concessionaria = item.getElementsByClassName('more-info')[0].innerHTML
-        var coordenadas=item.getElementsByClassName('coordenada')[0].value
+        var coordenadas = item.getElementsByClassName('coordenada')[0].value
 
         showPop(Concessionaria, municipio, coordenadas.split(","))
     }
