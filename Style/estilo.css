@@ -186,14 +186,7 @@ border-top: solid 5px#0067ac!important;}
         font-weight: bold;
     }
 
-   /* .leaflet-container a.leaflet-popup-close-button {
-        position: absolute;
-        top: 33px;
-        right: 23px;	
-        text-align: center;
-        width: 30px;
-        height: 30px;
-        text-decoration: none;
-        background: url(https://cedae.com.br/DesktopModules/cedae_public_StoreLocator/css/images/btn-close-map.png);
-        text-indent: -999999em;
-    }*/
+    .leaflet-container a.leaflet-popup-close-button {
+        margin: 10px!important;
+    }
+

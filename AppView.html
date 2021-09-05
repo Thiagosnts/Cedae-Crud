@@ -154,7 +154,7 @@
 
     function carregarItens(cidade) {
         limparItens();
-        var modeloItens = '<h4 class="local-name">#CIDADE#</h4> <span class="adress"><b>Bairro: </b>#BAIRRO#</span><span class="more-info" href="1">#EMPRESA#</span>'
+        var modeloItens = '<h4 class="local-name">#CIDADE#</h4> <span class="adress"><b>Bairro: </b>#BAIRRO#</span><span class="more-info" href="1">Mais Informações</span>'
         var listaItens = document.getElementById('searchResult')
 
         var itemJson = filtraRegiao(cidade)
@@ -165,9 +165,8 @@
             item = document.createElement('li')
             aux = modeloItens.replace('#BAIRRO#', itemJson[i].Bairro);
             aux = aux.replace('#CIDADE#', itemJson[i].Cidade);
-            aux = aux.replace('#EMPRESA#', itemJson[i].Concessionaria);
+            //aux = aux.replace('#EMPRESA#', itemJson[i].Concessionaria);
 
-            //var coordInput = document.createElement('input')
             var coordInput = String(itemJson[i].Coordenadas).replaceAll(" ", "")
 
             item.innerHTML = "<input class='coordenada' hidden value=" + coordInput + ">" + aux
