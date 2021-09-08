@@ -1,15 +1,15 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-    <link href="Style/leaflet.css" rel="stylesheet">
+    <link href="/portals/0/sc/concessao1/Style/leaflet.css" rel="stylesheet">
     <link href="https://cedae.com.br/Portals/_default/Skins/Cedae/styles/main.css" rel="stylesheet">
-    <link href="Style/estilo.css" rel="stylesheet">
+    <link href="/portals/0/sc/concessao1/Style/estilo.css" rel="stylesheet">
 
-    <script src="Scripts/leaflet.js"></script>
+    <script src="/portals/0/sc/concessao1/Scripts/leaflet.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <script src="Mapa/municipiosBaseGeo.js"></script>
-    <script src="Mapa/estadoGeo.js"></script>
+    <script src="/portals/0/sc/concessao1/Mapa/municipiosBaseGeo.js"></script>
+    <script src="/portals/0/sc/concessao1/Mapa/estadoGeo.js"></script>
 </head>
 
 <div class="wrapper">
@@ -55,7 +55,9 @@
     var dadosJsonGlobal;
     var map;
 
-    //url: 'https://teste.cedae.com.br/portals/0/sc/concessao/AppListaBack.aspx',
+    var url='/portals/0/sc/concessao1/AppListaBack.aspx'
+
+
 
     //$(window).load(function () {
     getDados()
@@ -65,7 +67,7 @@
 
     function getDados() {
         $.ajax({
-            url: 'AppListaBack.aspx',
+            url: url,
             cache: false,
             type: "POST",
             success: function (response) {
@@ -77,7 +79,7 @@
 
             },
             error: function () {
-                alert('deu ruim')
+                alert('Comunicação com o servidor falhou')
             }
         })
     }
@@ -167,9 +169,11 @@
             aux = aux.replace('#CIDADE#', itemJson[i].Cidade);
             //aux = aux.replace('#EMPRESA#', itemJson[i].Concessionaria);
 
+            var empresa = itemJson[i].Concessionaria
             var coordInput = String(itemJson[i].Coordenadas).replaceAll(" ", "")
 
-            item.innerHTML = "<input class='coordenada' hidden value=" + coordInput + ">" + aux
+            item.innerHTML = "<input class='coordenada' hidden value=" + coordInput + ">" 
+            item.innerHTML =item.innerHTML+ "<input class='empresa' hidden value=" + empresa + ">" + aux
             item.setAttribute("onclick", "showPopMap(this)")
             item.className = "item"
             listaItens.appendChild(item)
@@ -223,7 +227,7 @@
 
     function showPopMap(item) {
         var municipio = item.getElementsByClassName('local-name')[0].innerHTML
-        var Concessionaria = item.getElementsByClassName('more-info')[0].innerHTML
+        var Concessionaria = item.getElementsByClassName('empresa')[0].value
         var coordenadas = item.getElementsByClassName('coordenada')[0].value
 
         showPop(Concessionaria, municipio, coordenadas.split(","))
