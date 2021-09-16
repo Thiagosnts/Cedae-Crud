@@ -148,9 +148,9 @@
 
     }
 
-    function showPop(concessao, cidade, cod) {
+    function showPop(concessao, cidade,bairro, cod) {
 
-        var conteudo = '<div class="local-name">' + cidade + '</div><div class="region"> <span>Campo Grande</span></div><div class="adress"> <b>Concessionária: </b>' + concessao + '</div>'
+        var conteudo = '<div class="local-name">' + cidade + '</div><div class="region"> <span>'+'Campo Grande'+'</span></div><div class="adress"> <b>Concessionária: </b>' + concessao + '</div>'
 
         var popup = L.popup({ className: "pop1" })
             .setLatLng(cod)
@@ -170,7 +170,7 @@
 
     function carregarItens(cidade) {
         limparItens();
-        var modeloItens = '<h4 class="local-name">#CIDADE#</h4> <span class="adress"><b>Bairro: </b>#BAIRRO#</span><span class="more-info" href="1">Mais Informações</span>'
+        var modeloItens = '<h4 class="local-name">#CIDADE#</h4> <span class="adress bairro-ativo"><b>Bairro: </b>#BAIRRO#</span><span class="more-info" href="1">Mais Informações</span>'
         var listaItens = document.getElementById('searchResult')
 
         var itemJson = filtraRegiao(cidade)
@@ -243,8 +243,10 @@
         var municipio = item.getElementsByClassName('local-name')[0].innerHTML
         var Concessionaria = item.getElementsByClassName('empresa')[0].value
         var coordenadas = item.getElementsByClassName('coordenada')[0].value
+        var bairro = item.getElementsByClassName('bairro-ativo')[0].innerText.split(':')[1]
 
-        showPop(Concessionaria, municipio, coordenadas.split(","))
+
+        showPop(Concessionaria, municipio, bairro,coordenadas.split(","))
     }
 
 </script>
