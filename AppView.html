@@ -55,7 +55,7 @@
     var dadosJsonGlobal;
     var map;
 
-    var url='/portals/0/sc/concessao1/AppListaBack.aspx'
+    var url = '/portals/0/sc/concessao1/AppListaBack.aspx'
 
 
 
@@ -106,19 +106,12 @@
         };
 
         var defaultIcon = new L.icon({
-        iconUrl: 'https://cedae.com.br/DesktopModules/cedae_public_StoreLocator/css/images/map-pin.png',
-        iconSize: [31, 39],
-        iconAnchor: [16, 39],
-        popupAnchor: [0, -28]
+            iconUrl: 'https://cedae.com.br/DesktopModules/cedae_public_StoreLocator/css/images/map-pin.png',
+            iconSize: [31, 39],
+            iconAnchor: [16, 39],
+            popupAnchor: [0, -28]
         })
-    
-    
-        // for (var index = 0,limite=window.mapa.pins.length; index < limite; index++) {
-        //     item = window.mapa.pins[index]
-        //     marker = L.marker(item.coordenadas, {icon: defaultIcon}).bindPopup(getTemplate(item),customOptions).addTo(map);
-        //     map.addLayer(marker);
-        //     window.pinosAtivos.push(marker);
-        // }
+
 
         var municipios = JSON.parse(JSON.stringify(municipiosBase))
         municipios.features = []
@@ -135,15 +128,19 @@
             zoom: 7.5
         });
         var basemap = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        //var basemap = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png', {
+            //var basemap = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png', {
         });
         basemap.addTo(map);
         L.geoJSON(estadoBase, estilos.estado2).addTo(map)
 
-        L.geoJSON(municipios, estilos.base).bindPopup(function (layer) {
-            return layer.feature.properties.description;
-        }).addTo(map);
+        L.geoJSON(municipios, estilos.base).addTo(map);
 
+
+        for (var i = 0; i < dadosJsonGlobal.item.length; i++) {
+            item = dadosJsonGlobal.item[i]
+            var conteudo = '<div class="local-name">' + item.Cidade + '</div><div class="region"> <span>' + item.Bairro + '</span></div><div class="adress"> <b>Concessionária: </b>' + item.Concessionaria + '</div>'
+            marker = L.marker(item.Coordenadas, { icon: defaultIcon }).bindPopup(conteudo).addTo(map);
+        }
         //showPop(map, "Rio Aguas", "Rio de Janeiro", [-22.059537, -42.7959])
 
 
@@ -151,7 +148,7 @@
 
     function showPop(concessao, cidade, cod) {
 
-        var conteudo='<div class="local-name">'+cidade+'</div><div class="region"> <span>Campo Grande</span></div><div class="adress"> <b>Concessionária: </b>'+concessao+'</div>'
+        var conteudo = '<div class="local-name">' + cidade + '</div><div class="region"> <span>Campo Grande</span></div><div class="adress"> <b>Concessionária: </b>' + concessao + '</div>'
 
         var popup = L.popup({ className: "pop1" })
             .setLatLng(cod)
@@ -187,8 +184,8 @@
             var empresa = itemJson[i].Concessionaria
             var coordInput = String(itemJson[i].Coordenadas).replaceAll(" ", "")
 
-            item.innerHTML = "<input class='coordenada' hidden value=" + coordInput + ">" 
-            item.innerHTML =item.innerHTML+ "<input class='empresa' hidden value=" + empresa + ">" + aux
+            item.innerHTML = "<input class='coordenada' hidden value=" + coordInput + ">"
+            item.innerHTML = item.innerHTML + "<input class='empresa' hidden value=" + empresa + ">" + aux
             item.setAttribute("onclick", "showPopMap(this)")
             item.className = "item"
             listaItens.appendChild(item)
