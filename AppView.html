@@ -105,6 +105,21 @@
 
         };
 
+        var defaultIcon = new L.icon({
+        iconUrl: 'https://cedae.com.br/DesktopModules/cedae_public_StoreLocator/css/images/map-pin.png',
+        iconSize: [31, 39],
+        iconAnchor: [16, 39],
+        popupAnchor: [0, -28]
+        })
+    
+    
+        // for (var index = 0,limite=window.mapa.pins.length; index < limite; index++) {
+        //     item = window.mapa.pins[index]
+        //     marker = L.marker(item.coordenadas, {icon: defaultIcon}).bindPopup(getTemplate(item),customOptions).addTo(map);
+        //     map.addLayer(marker);
+        //     window.pinosAtivos.push(marker);
+        // }
+
         var municipios = JSON.parse(JSON.stringify(municipiosBase))
         municipios.features = []
 
