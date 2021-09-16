@@ -150,7 +150,7 @@
 
     function showPop(concessao, cidade,bairro, cod) {
 
-        var conteudo = '<div class="local-name">' + cidade + '</div><div class="region"> <span>'+'Campo Grande'+'</span></div><div class="adress"> <b>Concessionária: </b>' + concessao + '</div>'
+        var conteudo = '<div class="local-name">' + cidade + '</div><div class="region"> <span>'+bairro+'</span></div><div class="adress"> <b>Concessionária: </b>' + concessao + '</div>'
 
         var popup = L.popup({ className: "pop1" })
             .setLatLng(cod)
