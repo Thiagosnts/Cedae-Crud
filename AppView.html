@@ -133,7 +133,9 @@
         basemap.addTo(map);
         L.geoJSON(estadoBase, estilos.estado2).addTo(map)
 
-        L.geoJSON(municipios, estilos.base).addTo(map);
+        L.geoJSON(municipios, estilos.base).bindPopup(function (layer) {
+            return layer.feature.properties.description;
+        }).addTo(map);
 
 
         for (var i = 0; i < dadosJsonGlobal.item.length; i++) {
